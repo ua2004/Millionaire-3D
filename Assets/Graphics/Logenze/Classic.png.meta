@@ -1,0 +1,146 @@
+fileFormatVersion: 2
+guid: 9a3f5bd5975de2443b59c6fbb1951811
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Lozenge_question
+    21300002: Lozenge_left_ans_inactive
+    21300004: Lozenge_left_ans_active
+    21300006: Lozenge_left_ans_final
+    21300008: Lozenge_left_ans_correct
+    21300010: Lozenge_right_ans_inactive
+    21300012: Lozenge_right_ans_active
+    21300014: Lozenge_right_ans_final
+    21300016: Lozenge_right_ans_correct
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Lozenge_question
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 483
+        width: 1920
+        height: 204
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 203, y: 20, z: 203, w: 20}
+    - name: Lozenge_left_ans_inactive
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 363
+        width: 960
+        height: 111
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Lozenge_left_ans_active
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 241
+        width: 960
+        height: 111
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Lozenge_left_ans_final
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 121
+        width: 960
+        height: 111
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Lozenge_left_ans_correct
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 960
+        height: 111
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Lozenge_right_ans_inactive
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 363
+        width: 960
+        height: 111
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Lozenge_right_ans_active
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 241
+        width: 960
+        height: 111
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Lozenge_right_ans_final
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 120
+        width: 949
+        height: 112
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Lozenge_right_ans_correct
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 960
+        height: 111
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

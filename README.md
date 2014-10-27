@@ -34,6 +34,9 @@ What is planned
 * Clock format (US and UK).
 * Hot Seat format.
 * All other formats that ever appeared on TV (if possible).
+* 3D studio model with colorful lights.
+* 3D host model and 3D characters - so that users can choose who they are playing for.
+* Online question database which is updated regularly. Anyone can offer his own question to the game. After moderation, the question is submitted. Online stats where the author of the question can see how many users have answered it correctly.
 
 As you can see, there is a lot of work and we need your help.
 

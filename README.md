@@ -25,3 +25,10 @@ What is done so far
   9. Right answer correct (green background)
 
 ![Logense](https://raw.githubusercontent.com/ua2004/Millionaire-3D/master/Assets/Graphics/Logenze/Classic.png)
+
+
+Author's notes
+-------------------
+I have a job so I can work on this project only in my free time. Considering this and the fact that I'm lazy, there is no specific date for this game release. Please don't ask about it. Instead, fork and help it appear faster faster by creating pull requests if you want.
+
+Unity 3D was chosen due to its cross-platform features. You will need Unity 4.6 or higher because earlier versions don't have the new UI support.

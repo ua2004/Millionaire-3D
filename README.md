@@ -27,6 +27,17 @@ What is done so far
 ![Logense](https://raw.githubusercontent.com/ua2004/Millionaire-3D/master/Assets/Graphics/Logenze/Classic.png)
 
 
+What is planned
+---------------
+* Classic game format (15 questions, 3 lifelines, no clock), as appeared in 1998.
+* Super Millionaire.
+* Clock format (US and UK).
+* Hot Seat format.
+* All other formats that ever appeared on TV (if possible).
+
+As you can see, there is a lot of work and we need your help.
+
+
 Author's notes
 -------------------
 I have a job so I can work on this project only in my free time. Considering this and the fact that I'm lazy, there is no specific date for this game release. Please don't ask about it. Instead, fork and help it appear faster faster by creating pull requests if you want.

@@ -34,12 +34,23 @@ What is planned
 * Clock format (US and UK).
 * Hot Seat format.
 * All other formats that ever appeared on TV (if possible).
+* 3D studio model with colorful lights.
+* 3D host model and 3D characters - so that users can choose who they are playing for.
+* Online question database which is updated regularly. Anyone can offer his own question to the game. After moderation, the question is submitted. Online stats where the author of the question can see how many users have answered it correctly.
 
 As you can see, there is a lot of work and we need your help.
 
 
-Author's notes
+FAQ
 -------------------
+### Why github?
+I have been a big fan of WWTBAM since I was kid. In fact I think it's the greatest TV quiz ever. If you also think this way we can unite together to recreate our favorite show as an exciting computer game. I have seen several great WWTBAM custom software videos on YouTube where authors said they will never publish their code. That is annoying - why would one publish samples of his work only to brag? I thought it's a good idea to share my work with other fans. And of course many heads are better than just one. It's a non-commercial project since the best work is the work done not for money, but for yourself.
+
+### When will the game be released?
 I have a job so I can work on this project only in my free time. Considering this and the fact that I'm lazy, there is no specific date for this game release. Please don't ask about it. Instead, fork and help it appear faster faster by creating pull requests if you want.
 
+### What software do I need to help coding?
 Unity 3D was chosen due to its cross-platform features. You will need Unity 4.6 or higher because earlier versions don't have the new UI support.
+
+### I'm not a programmer. How else can I help?
+That's OK. We also need designers to create HQ game textures.

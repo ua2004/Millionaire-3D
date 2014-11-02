@@ -4,17 +4,23 @@ using System;
 using System.Text;
 using System.Reflection;
 using System.Collections;
+using System.Threading;
 
 public class FinalAnswerScript : MonoBehaviour {
 
 	//public Color32 answerCaptionColorUnselected = new Color(247, 154, 28, 255);
 	//public Color32 answerCaptionColorSelected = new Color(255, 255, 255, 255);
-	public Text AnswerCaption, AnswerText;
+	public GameProcessScript gameProcess;
+	public Animator answerAnimation;
 
 	public void OnFinalAnswerClick(int answer)
 	{
-		AnswerCaption.color = Color.white;
-		AnswerText.color = Color.black;
+		if(gameProcess.state == State.FULL_QUESTION && gameProcess.isAnswerAvailable[answer])
+		{
+			answerAnimation.Play("FinalAnswer");
+			gameProcess.state = State.FINAL_ANSWER_GIVEN;
+		}
+		Debug.Log(gameProcess.state);
 	}
 
 	public static string var_dump(object obj, int recursion)

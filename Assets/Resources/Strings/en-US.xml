@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<strings>
+	<string id="game_title">Who Wants to Be a Millionaire?</string>
+	<string id="no_questions_in_db">Unfortunately, question database is empty.</string>
+	<string id="not_enough_questions_in_db">Unfortunately, there are not enough questions in database.</string>
+</strings>

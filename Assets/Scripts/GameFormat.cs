@@ -12,12 +12,63 @@ public abstract class GameFormat {
 	public int[] MoneyTree {
 		get { return this.moneyTree; }
 	}*/
-	public int[] moneyTree;
+	protected int[] moneyTree;
+
+	public int QuestionCount
+	{
+		get
+		{
+			return this.moneyTree.Length;
+		}
+	}
 
 	//array which contains question numbers which bring the player guaranteed prizes
 	/*private readonly int[] guaranteedPrizes;
 	public int[] GuaranteedPrizes {
 		get { return this.guaranteedPrizes; }
 	}*/
-	public int[] guaranteedPrizes;
+	protected int[] guaranteedPrizes;
+
+	/**
+	 * Returns amount of money that users gets when he answers the question correctly.
+	 * 
+	 * @param int questionNumber starts from 1
+	 * @return int
+	 */
+	public int GetPrizeForQuestion(int questionNumber)
+	{
+		if( (questionNumber <= 0) || (questionNumber > this.moneyTree.Length) ) // if incorrect question number
+		{
+			throw new UnityException("Question with this number does not exist!");
+		}
+		return this.moneyTree[questionNumber - 1];
+	}
+
+	/**
+	 * Returns amount of money that users gets when he answers the question incorrectly.
+	 * 
+	 * @param int questionNumber starts from 1
+	 * @return int
+	 */
+	public int GetGuaranteedPrizeForQuestion(int questionNumber)
+	{
+		if( (questionNumber <= 0) || (questionNumber > this.moneyTree.Length) ) // if incorrect question number
+		{
+			throw new UnityException("Question with this number does not exist!");
+		}
+		else if(questionNumber <= this.guaranteedPrizes[0]) // if before first guaranteed prize
+		{
+			return 0;
+		}
+		else if(questionNumber == this.moneyTree.Length) // if very last question
+		{
+			return this.moneyTree[this.guaranteedPrizes[this.guaranteedPrizes.Length - 2] - 1];
+		}
+		int i=0;
+		while(this.guaranteedPrizes[i] < questionNumber)
+		{
+			i++;
+		}
+		return this.moneyTree[this.guaranteedPrizes[i - 1] - 1];
+	}
 }

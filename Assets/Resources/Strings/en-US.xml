@@ -3,4 +3,7 @@
 	<string id="game_title">Who Wants to Be a Millionaire?</string>
 	<string id="no_questions_in_db">Unfortunately, question database is empty.</string>
 	<string id="not_enough_questions_in_db">Unfortunately, there are not enough questions in database.</string>
+		
+	<string id="yes">Yes</string>
+	<string id="no">No</string>
 </strings>

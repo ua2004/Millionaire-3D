@@ -3,4 +3,7 @@
 	<string id="game_title">Перший мільйон</string>
 	<string id="no_questions_in_db">На жаль, база запитань порожня.</string>
 	<string id="not_enough_questions_in_db">На жаль, у базі недостатньо запитань для гри.</string>
+	
+	<string id="yes">Так</string>
+	<string id="no">Ні</string>
 </strings>

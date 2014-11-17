@@ -17,6 +17,8 @@ public class MessageBox {
 		GameObject msgBox = (GameObject) GameObject.Instantiate(Resources.Load("Prefabs/MessageBoxes/OK"));
 		GameObject msgCanvas = GameObject.Find("Canvas");
 		msgBox.transform.SetParent(msgCanvas.transform, false);
+		Text msgText = (Text) GameObject.Find("MessageText").GetComponent<Text>();
+		msgText.text = text;
 		Button msgBoxOKButton = (Button) GameObject.Find("OKButton").GetComponent<Button>();
 		msgBoxOKButton.onClick.AddListener(delegate {
 			GameObject.Destroy(msgBox);
@@ -26,6 +28,13 @@ public class MessageBox {
 	/**
 	 * Shows message box with OK button. Prefab at Assets/Prefabs/MessageBoxes/YesNo must exist.
 	 * Main UI canvas must be named Canvas.
+	 * Usage:
+	 * MessageBox.ShowYesNo("Hohoho!", delegate {
+	 * 		Debug.Log("User clicks YES!");
+	 * }, 
+	 * delegate {
+	 *		Debug.Log("User clicks NO!");
+	 * });
 	 * 
 	 * @param string text Text to be displayed
 	 * @param Callback yesCallback Delegate which is called when user clicks Yes button
@@ -36,18 +45,17 @@ public class MessageBox {
 		GameObject msgBox = (GameObject) GameObject.Instantiate(Resources.Load("Prefabs/MessageBoxes/YesNo"));
 		GameObject msgCanvas = GameObject.Find("Canvas");
 		msgBox.transform.SetParent(msgCanvas.transform, false);
+		Text msgText = (Text) GameObject.Find("MessageText").GetComponent<Text>();
+		msgText.text = text;
 
-		bool whichButton = false;
 		Button msgBoxYesButton = (Button) GameObject.Find("YesButton").GetComponent<Button>();
 		msgBoxYesButton.onClick.AddListener(delegate {
 			GameObject.Destroy(msgBox);
-			whichButton = true;
 			yesCallback();
 		});
 		Button msgBoxNoButton = (Button) GameObject.Find("NoButton").GetComponent<Button>();
 		msgBoxNoButton.onClick.AddListener(delegate {
 			GameObject.Destroy(msgBox);
-			whichButton = false;
 			noCallback();
 		});
 	}

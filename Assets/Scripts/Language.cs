@@ -75,6 +75,10 @@ public class Language {
 		{
 			return this.strings[id];
 		}
+		else if(this.defaultStrings.ContainsKey (id))
+		{
+			return this.defaultStrings[id];
+		}
 		else
 		{
 			return id;

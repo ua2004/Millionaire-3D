@@ -15,7 +15,7 @@ public class FinalAnswerScript : MonoBehaviour {
 
 	public void OnFinalAnswerClick(int answer)
 	{
-		if(gameProcess.state == State.FULL_QUESTION && gameProcess.isAnswerAvailable[answer])
+		if(gameProcess.state == State.WAITING_ANSWER && gameProcess.isAnswerAvailable[answer])
 		{
 			answerAnimation.Play("FinalAnswer");
 			gameProcess.state = State.FINAL_ANSWER_GIVEN;

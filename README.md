@@ -24,7 +24,7 @@ What is done so far
   8. Left answer correct (green background)
   9. Right answer correct (green background)
 
-![Logense](https://raw.githubusercontent.com/ua2004/Millionaire-3D/master/Assets/Graphics/Logenze/Classic.png)
+![Logense](https://raw.githubusercontent.com/ua2004/Millionaire-3D/master/Assets/Resources/Graphics/Classic/Lozenge.png)
 
 
 What is planned

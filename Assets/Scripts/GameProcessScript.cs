@@ -26,6 +26,9 @@ public class GameProcessScript : MonoBehaviour {
 	public int difficlutyLevel;
 	public int questionNumber;
 	public GameFormat gameFormat;
+	public Animator[] answerAnimation; // animators for each answer, specified in Unity editor
+
+	public Image currentPrizeImage; // image with current prize text, it is shown after
 
 	// When the game starts
 	void Start () {
@@ -42,41 +45,51 @@ public class GameProcessScript : MonoBehaviour {
 	{
 		this.db = new SqliteDatabase("questions.bytes");
 		this.gameFormat = new ClassicGameFormat();
-		this.state = State.WAITING_ANSWER;
 		this.difficlutyLevel = 1;
 		this.questionNumber = 1;
-		for (int i=0; i<4; i++)
-		{
-			this.isAnswerAvailable[i] = true;
-		}
 		LoadQuestion();
 	}
 
 	public void AnswerSelected(int answerNumber)
 	{
-		if(this.state == State.WAITING_ANSWER && this.isAnswerAvailable[answerNumber])
+		if( (this.state == State.WAITING_ANSWER) && (this.isAnswerAvailable[answerNumber]) )
 		{
 			//answerAnimation.Play("FinalAnswer");
-			//this.state = State.FINAL_ANSWER_GIVEN;
-			if(answerNumber == this.question.correctAnswer)
+			this.state = State.FINAL_ANSWER_GIVEN;
+			this.question.finalAnswer = answerNumber;
+			this.answerAnimation[answerNumber].Play("FinalAnswer");
+			StartCoroutine("RevealAnswer");
+		}
+	}
+
+	public IEnumerator RevealAnswer()
+	{
+		// wait 3 to 6 seconds before revealing correct answer
+		yield return new WaitForSeconds(Random.Range(3f, 6f));
+		if( (this.state == State.FINAL_ANSWER_GIVEN) && (this.question.finalAnswer == this.question.correctAnswer) )
+		{
+			if(this.questionNumber == this.gameFormat.QuestionCount) // if last question correct
 			{
-				if(this.questionNumber == this.gameFormat.QuestionCount)
-				{
-					this.state = State.MILLION_WON;
-					Debug.Log("Bravo! You are a millionaire!");
-				}
-				else
-				{
-					Debug.Log("Correct! You won " + this.gameFormat.GetPrizeForQuestion(this.questionNumber));
-					this.questionNumber++;
-					this.LoadQuestion();
-				}
+				this.state = State.MILLION_WON;
+				this.answerAnimation[this.question.finalAnswer].Play("CorrectAnswer");
+				Debug.Log("Bravo! You are a millionaire!");
 			}
 			else
 			{
-				this.state = State.WRONG_ANSWER;
-				Debug.Log("Wrong! Your total prize is " + this.gameFormat.GetGuaranteedPrizeForQuestion(this.questionNumber));
+				this.state = State.CORRECT_ANSWER;
+				//GameObject btn = (GameObject) Object.Instantiate(currentPrizeImage);
+				Debug.Log("Correct! You won " + this.gameFormat.GetPrizeForQuestion(this.questionNumber));
+				this.answerAnimation[this.question.finalAnswer].Play("CorrectAnswer");
+				yield return new WaitForSeconds(3);
+				this.questionNumber++;
+				this.LoadQuestion();
 			}
+		}
+		else
+		{
+			this.state = State.WRONG_ANSWER;
+			this.answerAnimation[this.question.correctAnswer].Play("WrongAnswer");
+			Debug.Log("Wrong! Your total prize is " + this.gameFormat.GetGuaranteedPrizeForQuestion(this.questionNumber));
 		}
 	}
 
@@ -105,6 +118,13 @@ public class GameProcessScript : MonoBehaviour {
 		ansCText.text = this.question.answers[2];
 		Text ansDText = (Text) GameObject.Find("AnsDText").GetComponent<Text>();
 		ansDText.text = this.question.answers[3];
+
+		for(int i=0; i<=3; i++)
+		{
+			this.isAnswerAvailable[i] = true;
+			this.answerAnimation[i].Play("ActiveAnswer");
+		}
+		this.state = State.WAITING_ANSWER;
 
 		//Debug.Log(this.question.synopsis);
 		//Debug.Log("Question: " + q.question + " Correct answer: " + q.correctAnswer + " - " + q.correctAnswerText);

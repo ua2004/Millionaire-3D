@@ -69,13 +69,13 @@ public class Language {
 	 * @param string id String ID in XML language file
 	 * @return string
 	 */
-	public string t(string id)
+	public string T(string id)
 	{
 		if (this.strings.ContainsKey(id))
 		{
 			return this.strings[id];
 		}
-		else if(this.defaultStrings.ContainsKey (id))
+		else if(this.defaultStrings.ContainsKey(id))
 		{
 			return this.defaultStrings[id];
 		}
@@ -83,5 +83,24 @@ public class Language {
 		{
 			return id;
 		}
+	}
+
+	/**
+	 * Returns money prize amount formatted for the current locale.
+	 * E.g., for en-US it returns $1,000 and for en-GB returns £1,000.
+	 * 
+	 * @param double prize Amount of money to be formatted
+	 * @return string
+	 */
+	public string FormatPrize(double prize)
+	{
+		string formattedPrize = string.Format(new System.Globalization.CultureInfo(this.code), "{0:C0}", prize);
+		if(this.code == "uk-UA")
+		{
+			//removing Ukrainian currency name "грн." at the end of the string
+			//because in the Ukrainian TV show there was only a number without currency name
+			formattedPrize = formattedPrize.Substring(0,formattedPrize.LastIndexOf(" "));
+		}
+		return formattedPrize;
 	}
 }

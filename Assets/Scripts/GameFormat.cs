@@ -30,7 +30,7 @@ public abstract class GameFormat {
 	protected int[] guaranteedPrizes;
 
 	/**
-	 * Returns amount of money that users gets when he answers the question correctly.
+	 * Returns amount of money that user gets when he answers the question correctly.
 	 * 
 	 * @param int questionNumber starts from 1
 	 * @return int
@@ -43,6 +43,20 @@ public abstract class GameFormat {
 		}
 		return this.moneyTree[questionNumber - 1];
 	}
+
+	/**
+	 * Returns formatted according to locale amount of money that user gets
+	 * when he answers the question correctly.
+	 * 
+	 * @param int questionNumber starts from 1
+	 * @return string
+	 */
+	/*public string GetFormattedPrizeForQuestion(int questionNumber)
+	{
+		int prize = this.GetPrizeForQuestion(questionNumber);
+
+		return "";
+	}*/
 
 	/**
 	 * Returns amount of money that users gets when he answers the question incorrectly.

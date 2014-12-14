@@ -10,7 +10,7 @@ public class Question {
 	public int correctAnswer; //0 means A, 1 means B, etc.
 	public string correctAnswerText; //text of the correct answer
 	public string synopsis; //short explanation of the correct answer which is shown after user gave his final answer
-	public Animator[] answerAnimation; // animators for each answer
+	public Animator[] answerAnimation = new Animator[4]; // animators for each answer
 
 	private SqliteDatabase db; //SQLite question database
 

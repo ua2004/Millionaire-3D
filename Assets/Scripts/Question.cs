@@ -46,7 +46,7 @@ public class Question {
 		this.synopsis = row["synopsis"].ToString();
 
 		//instantiating logenze prefab
-		GameObject logenze = (GameObject) Object.Instantiate((GameObject) Resources.Load("Prefabs/Classic/Logenze", typeof(GameObject)));
+		GameObject logenze = (GameObject) GameObject.Instantiate(Resources.Load("Prefabs/Classic/Logenze"));
 		GameObject canvas = GameObject.Find("Canvas");
 		logenze.transform.SetParent(canvas.transform, false);
 		//removing "(Clone)" suffix from name

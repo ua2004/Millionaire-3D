@@ -94,7 +94,7 @@ public class GameProcessScript : MonoBehaviour {
 				      //(this.question.answerAnimation[this.question.finalAnswer].GetNextAnimatorStateInfo(0).nameHash == "CorrectAnswer") );
 
 				//showing current prize bar
-				GameObject prize = (GameObject) Object.Instantiate((GameObject) Resources.Load("Prefabs/Classic/CurrentPrizeImage", typeof(GameObject)));
+				GameObject prize = (GameObject) GameObject.Instantiate(Resources.Load("Prefabs/Classic/CurrentPrizeImage"));
 				prize.transform.SetParent(GameObject.Find("Canvas").transform, false);
 				Text prizeText = prize.GetComponentInChildren<Text>();
 				prizeText.text = this.l.FormatPrize(this.gameFormat.GetPrizeForQuestion(this.questionNumber));

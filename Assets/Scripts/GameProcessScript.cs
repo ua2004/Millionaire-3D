@@ -89,6 +89,7 @@ public class GameProcessScript : MonoBehaviour {
 				this.state = State.CORRECT_ANSWER;
 				Debug.Log("Correct! You won " + this.gameFormat.GetPrizeForQuestion(this.questionNumber));
 				this.question.answerAnimation[this.question.finalAnswer].Play("CorrectAnswer");
+				yield return new WaitForSeconds(1);
 
 				//while(this.question.answerAnimation[this.question.finalAnswer].IsInTransition(0) &&
 				      //(this.question.answerAnimation[this.question.finalAnswer].GetNextAnimatorStateInfo(0).nameHash == "CorrectAnswer") );

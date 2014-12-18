@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
+//current game state
 public enum State
 {
 	RULE_EXPLANATION,
@@ -26,8 +27,8 @@ public class GameProcessScript : MonoBehaviour {
 	public int questionNumber;
 	public GameFormat gameFormat;
 
-	public Image logenze; // logenze image, it contains question and 4 answers
-	public Image currentPrizeImage; // image with current prize text, it is shown after correct answer
+	//public GameObject logenze; // logenze image, it contains question and 4 answers
+	//public GameObject currentPrizeImage; // image with current prize text, it is shown after correct answer
 
 	// When the game starts
 	void Start ()
@@ -46,7 +47,17 @@ public class GameProcessScript : MonoBehaviour {
 	{
 		this.gameFormat = new ClassicGameFormat();
 		this.difficlutyLevel = 1;
-		this.questionNumber = 1;
+		this.questionNumber = 0;
+		this.LoadQuestion();
+	}
+
+	public void LoadQuestion()
+	{
+		this.questionNumber++;
+		for(int i=0; i<=3; i++)
+		{
+			this.isAnswerAvailable[i] = true;
+		}
 		this.question = new Question();
 		this.state = State.WAITING_ANSWER;
 	}
@@ -56,48 +67,52 @@ public class GameProcessScript : MonoBehaviour {
 		if( (this.state == State.WAITING_ANSWER) && (this.isAnswerAvailable[answerNumber]) )
 		{
 			this.state = State.FINAL_ANSWER_GIVEN;
-			this.question.finalAnswer = answerNumber;
-			//this.answerAnimation[answerNumber].Play("FinalAnswer");
-			//StartCoroutine("RevealAnswer");
+			this.question.SetFinalAnswer(answerNumber);
+			StartCoroutine("RevealAnswer");
 		}
 	}
 
-	/*public IEnumerator RevealAnswer()
+	public IEnumerator RevealAnswer()
 	{
 		// wait 3 to 6 seconds before revealing correct answer
 		yield return new WaitForSeconds(Random.Range(3f, 6f));
-		if( (this.state == State.FINAL_ANSWER_GIVEN) && (this.question.finalAnswer == this.question.correctAnswer) )
+		if( (this.state == State.FINAL_ANSWER_GIVEN) && (this.question.IsAnswerCorrect()) )
 		{
 			if(this.questionNumber == this.gameFormat.QuestionCount) // if last question correct
 			{
 				this.state = State.MILLION_WON;
-				this.answerAnimation[this.question.finalAnswer].Play("CorrectAnswer");
+				this.question.answerAnimation[this.question.finalAnswer].Play("CorrectAnswer");
 				Debug.Log("Bravo! You are a millionaire!");
 			}
 			else
 			{
 				this.state = State.CORRECT_ANSWER;
 				Debug.Log("Correct! You won " + this.gameFormat.GetPrizeForQuestion(this.questionNumber));
-				this.answerAnimation[this.question.finalAnswer].Play("CorrectAnswer");
+				this.question.answerAnimation[this.question.finalAnswer].Play("CorrectAnswer");
+
+				//while(this.question.answerAnimation[this.question.finalAnswer].IsInTransition(0) &&
+				      //(this.question.answerAnimation[this.question.finalAnswer].GetNextAnimatorStateInfo(0).nameHash == "CorrectAnswer") );
+
 				//showing current prize bar
-				Image prize = (Image) Object.Instantiate(this.currentPrizeImage);
+				GameObject prize = (GameObject) Object.Instantiate((GameObject) Resources.Load("Prefabs/Classic/CurrentPrizeImage", typeof(GameObject)));
 				prize.transform.SetParent(GameObject.Find("Canvas").transform, false);
 				Text prizeText = prize.GetComponentInChildren<Text>();
 				prizeText.text = this.l.FormatPrize(this.gameFormat.GetPrizeForQuestion(this.questionNumber));
+				GameObject logenze = GameObject.Find("Logenze");
+				Destroy(logenze);
 
 				yield return new WaitForSeconds(3);
-				prize.transform.DestroyChildren();
+				prize.transform.DestroyChildren(); //our own extension method for Transform class
 				Destroy(prize);
 
-				this.questionNumber++;
-				this.question = new Question();
+				this.LoadQuestion();
 			}
 		}
 		else
 		{
 			this.state = State.WRONG_ANSWER;
-			this.answerAnimation[this.question.correctAnswer].Play("WrongAnswer");
+			this.question.answerAnimation[this.question.correctAnswer].Play("WrongAnswer");
 			Debug.Log("Wrong! Your total prize is " + this.gameFormat.GetGuaranteedPrizeForQuestion(this.questionNumber));
 		}
-	}	*/
+	}
 }

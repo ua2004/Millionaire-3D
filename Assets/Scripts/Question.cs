@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public class Question {
@@ -25,13 +27,13 @@ public class Question {
 
 	public Question()
 	{
-		this.LoadQuestion();
+		this.GetQuestion();
 	}
 
 	/**
-	 * Selects one random question from database.
+	 * Selects one random question from database and renders it on the screen.
 	 */ 
-	protected void LoadQuestion()
+	protected void GetQuestion()
 	{
 		this.db = new SqliteDatabase("questions.bytes");
 		string query = "SELECT * FROM `questions` WHERE `difficulty_level`='1' ORDER BY RANDOM() LIMIT 1;";
@@ -43,35 +45,101 @@ public class Question {
 		this.correctAnswerText = this.answers[this.correctAnswer];
 		this.synopsis = row["synopsis"].ToString();
 
-		//instantiating logenze from prefab
+		//instantiating logenze prefab
 		GameObject logenze = (GameObject) Object.Instantiate((GameObject) Resources.Load("Prefabs/Classic/Logenze", typeof(GameObject)));
-		logenze.transform.SetParent(GameObject.Find("Canvas").transform, false);
+		GameObject canvas = GameObject.Find("Canvas");
+		logenze.transform.SetParent(canvas.transform, false);
 		//removing "(Clone)" suffix from name
 		logenze.transform.name = logenze.transform.name.Replace("(Clone)","").Trim();
 
 		Text questionText = (Text) GameObject.Find("QuestionText").GetComponent<Text>();
 		questionText.text = this.question;
-		Text ansAText = (Text) GameObject.Find("AnsAText").GetComponent<Text>();
-		ansAText.text = this.answers[0];
-		Text ansBText = (Text) GameObject.Find("AnsBText").GetComponent<Text>();
-		ansBText.text = this.answers[1];
-		Text ansCText = (Text) GameObject.Find("AnsCText").GetComponent<Text>();
-		ansCText.text = this.answers[2];
-		Text ansDText = (Text) GameObject.Find("AnsDText").GetComponent<Text>();
-		ansDText.text = this.answers[3];
-		
-		this.answerAnimation[0] = (Animator) GameObject.Find("AnsAImage").GetComponent<Animator>();
-		this.answerAnimation[1] = (Animator) GameObject.Find("AnsBImage").GetComponent<Animator>();
-		this.answerAnimation[2] = (Animator) GameObject.Find("AnsCImage").GetComponent<Animator>();
-		this.answerAnimation[3] = (Animator) GameObject.Find("AnsDImage").GetComponent<Animator>();
+
+		GameProcessScript gameProcessScript = (GameProcessScript) canvas.GetComponent<GameProcessScript>();
+
+		/*
+		The following initializations cannot be done in for loop, only separately.
+		If we do this in the loop and pass "i" as a parameter to
+			()=>{gameProcessScript.AnswerSelected(i);
+		then "i" variable will always equal 4 since callback will be called after the loop is run.
+		Therefore we have to pass a constant expression instead of "i".
+		*/
+		GameObject ans = GameObject.Find("AnsAText");
+		Text ansText = (Text) ans.GetComponent<Text>();
+		ansText.text = this.answers[0];
+		//adding onclick event handler to answer text
+		EventTrigger ansTrigger = (EventTrigger) ansText.GetComponent<EventTrigger>();
+		ansTrigger.AddEventTrigger(()=>{gameProcessScript.AnswerSelected(0);}, EventTriggerType.PointerClick);
+		//adding onclick event handler to answer caption
+		ansTrigger = GameObject.Find("AnsACaption").GetComponent<EventTrigger>();
+		ansTrigger.AddEventTrigger(()=>{gameProcessScript.AnswerSelected(0);}, EventTriggerType.PointerClick);
+
+		ans = GameObject.Find("AnsBText");
+		ansText = (Text) ans.GetComponent<Text>();
+		ansText.text = this.answers[1];
+		//adding onclick event handler to answer text
+		ansTrigger = (EventTrigger) ansText.GetComponent<EventTrigger>();
+		ansTrigger.AddEventTrigger(()=>{gameProcessScript.AnswerSelected(1);}, EventTriggerType.PointerClick);
+		//adding onclick event handler to answer caption
+		ansTrigger = GameObject.Find("AnsBCaption").GetComponent<EventTrigger>();
+		ansTrigger.AddEventTrigger(()=>{gameProcessScript.AnswerSelected(1);}, EventTriggerType.PointerClick);
+
+		ans = GameObject.Find("AnsCText");
+		ansText = (Text) ans.GetComponent<Text>();
+		ansText.text = this.answers[2];
+		//adding onclick event handler to answer text
+		ansTrigger = (EventTrigger) ansText.GetComponent<EventTrigger>();
+		ansTrigger.AddEventTrigger(()=>{gameProcessScript.AnswerSelected(2);}, EventTriggerType.PointerClick);
+		//adding onclick event handler to answer caption
+		ansTrigger = GameObject.Find("AnsCCaption").GetComponent<EventTrigger>();
+		ansTrigger.AddEventTrigger(()=>{gameProcessScript.AnswerSelected(2);}, EventTriggerType.PointerClick);
+
+		ans = GameObject.Find("AnsDText");
+		ansText = (Text) ans.GetComponent<Text>();
+		ansText.text = this.answers[3];
+		//adding onclick event handler to answer text
+		ansTrigger = (EventTrigger) ansText.GetComponent<EventTrigger>();
+		ansTrigger.AddEventTrigger(()=>{gameProcessScript.AnswerSelected(3);}, EventTriggerType.PointerClick);
+		//adding onclick event handler to answer caption
+		ansTrigger = GameObject.Find("AnsDCaption").GetComponent<EventTrigger>();
+		ansTrigger.AddEventTrigger(()=>{gameProcessScript.AnswerSelected(3);}, EventTriggerType.PointerClick);
+
 		for(int i=0; i<=3; i++)
 		{
+			char letter = (char)((int)'A'+i); //65 is letter 'A', 66 is 'B', etc.
+
+			this.answerAnimation[i] = (Animator) GameObject.Find("Ans" + letter + "Image").GetComponent<Animator>();
 			this.answerAnimation[i].Play("ActiveAnswer");
 		}
 		
 		//Debug.Log(this.question.synopsis);
 		//Debug.Log("Question: " + q.question + " Correct answer: " + q.correctAnswer + " - " + q.correctAnswerText);
-	}	
+	}
+
+	/**
+	 * Set final answer and play corresponding animation.
+	 * 
+	 * @param int answerNumber Answer number given by user (0 means A, 1 means B, etc.)
+	 */
+	public void SetFinalAnswer(int answerNumber)
+	{
+		if((answerNumber < 0) || (answerNumber > 3))
+		{
+			answerNumber = 0;
+		}
+		this.finalAnswer = answerNumber;
+		this.answerAnimation[answerNumber].Play("FinalAnswer");
+	}
+
+	/**
+	 * Returns true if the given final aswer is correct.
+	 * 
+	 * @return bool
+	 */
+	public bool IsAnswerCorrect()
+	{
+		return this.finalAnswer == this.correctAnswer;
+	}
 
 	/**
 	 * Returns number of available questions in database.

@@ -19,6 +19,16 @@ public static class Extensions {
 		t.position = new Vector3(newX, t.position.y, t.position.z);
 	}
 
+	public static void SetPositionY(this Transform t, float newY)
+	{
+		t.position = new Vector3(t.position.x, newY, t.position.z);
+	}
+
+	public static void SetPositionZ(this Transform t, float newZ)
+	{
+		t.position = new Vector3(t.position.x, t.position.y, newZ);
+	}
+
 	/**
 	 * Destroys all children of specified object.
 	 * @return Transform
@@ -35,6 +45,8 @@ public static class Extensions {
 	 * Add listener (event handler) to the object which has EventTrigger component.
 	 * @param UnityAction action Event handler (lambda or function name) to be called when the event is triggered
 	 * @param EventTriggerType triggerType Event to be handled
+	 * 
+	 * @author AyARL
 	 */
 	public static void AddEventTrigger(this EventTrigger eventTrigger, UnityAction action, EventTriggerType triggerType)
 	{
@@ -54,6 +66,8 @@ public static class Extensions {
 	 * Use listener that uses the BaseEventData passed to the Trigger.
 	 * @param UnityAction<BaseEventData> action Event handler (lambda or function name) to be called when the event is triggered
 	 * @param EventTriggerType triggerType Event to be handled
+	 * 
+	 * @author AyARL
 	 */
 	public static void AddEventTrigger(this EventTrigger eventTrigger, UnityAction<BaseEventData> action, EventTriggerType triggerType)
 	{

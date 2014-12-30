@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 /**
@@ -7,12 +8,20 @@ using System.Collections;
  */
 public abstract class GameFormat {
 
-	//array of money prizes for each question
-	/*private readonly int[] moneyTree;
+	/**
+	 * Must have trailing slash.
+	 */
+	protected string prefabPath;
+
+	/**
+	 * Array of money prizes for each question.
+	 */
+	protected int[] moneyTree;
 	public int[] MoneyTree {
 		get { return this.moneyTree; }
-	}*/
-	protected int[] moneyTree;
+	}
+
+	public Lifeline[] lifelines;
 
 	public int QuestionCount
 	{
@@ -22,12 +31,13 @@ public abstract class GameFormat {
 		}
 	}
 
-	//array which contains question numbers which bring the player guaranteed prizes
-	/*private readonly int[] guaranteedPrizes;
+	/**
+	 * Array that contains question numbers which bring the player guaranteed prizes.
+	 */
+	protected int[] guaranteedPrizes;
 	public int[] GuaranteedPrizes {
 		get { return this.guaranteedPrizes; }
-	}*/
-	protected int[] guaranteedPrizes;
+	}
 
 	/**
 	 * Returns amount of money that user gets when he answers the question correctly.
@@ -84,5 +94,51 @@ public abstract class GameFormat {
 			i++;
 		}
 		return this.moneyTree[this.guaranteedPrizes[i - 1] - 1];
+	}
+
+	/**
+	 * Shows the money tree.
+	 * @param int questionNumber current question number, will be selected
+	 */
+	public void ShowMoneyTree(int questionNumber)
+	{
+		GameObject mtree = (GameObject) GameObject.Instantiate(Resources.Load(this.prefabPath + "MoneyTree"));
+		GameObject canvas = GameObject.Find("Canvas");
+		mtree.transform.SetParent(canvas.transform, false);
+		GameProcessScript gameProcessScript = (GameProcessScript) canvas.GetComponent<GameProcessScript>();
+		//removing "(Clone)" suffix from name
+		mtree.transform.name = mtree.transform.name.Replace("(Clone)","").Trim();
+		GameObject a = GameObject.Find("QuestionPrize");
+		int n = this.MoneyTree.Length;
+		
+		for(int i = 0; i < n; i++)
+		{
+			GameObject b = (GameObject) GameObject.Instantiate(a);
+			b.transform.SetParent(mtree.transform, false);
+			b.transform.SetPositionY(a.transform.position.y - 22*i);
+			//removing "(Clone)" suffix from name
+			b.transform.name = b.transform.name.Replace("(Clone)","").Trim() + (n - i);
+			Text text = (Text) b.GetComponent<Text>();
+			text.text = (n - i) < 10 ? "  " : "";
+			text.text += (n - i) + "\t\t" + gameProcessScript.l.FormatPrize(this.MoneyTree[n-i-1]);
+			if (System.Array.IndexOf(this.GuaranteedPrizes, n-i) > -1)
+			{
+				text.color = Color.white;
+			}
+		}
+		GameObject.Destroy(a);
+		
+		GameObject currentQuestion = GameObject.Find("CurrentQuestion");
+		currentQuestion.transform.SetPositionY(currentQuestion.transform.position.y - 22*(n - questionNumber));
+	}
+
+	/**
+	 * Hides money tree and destroys it from the scene.
+	 */
+	public void HideMoneyTree()
+	{
+		GameObject mtree = GameObject.Find("MoneyTree");
+		//mtree.transform.DestroyChildren();
+		GameObject.Destroy(mtree);
 	}
 }

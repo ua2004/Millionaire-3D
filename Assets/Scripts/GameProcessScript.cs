@@ -40,7 +40,7 @@ public class GameProcessScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-	
+
 	}
 
 	public void StartGame()
@@ -49,6 +49,7 @@ public class GameProcessScript : MonoBehaviour {
 		this.difficlutyLevel = 1;
 		this.questionNumber = 0;
 		this.LoadQuestion();
+		//this.gameFormat.lifelines[0].Use ();
 	}
 
 	public void LoadQuestion()
@@ -105,14 +106,18 @@ public class GameProcessScript : MonoBehaviour {
 				yield return new WaitForSeconds(3);
 				prize.transform.DestroyChildren(); //our own extension method for Transform class
 				Destroy(prize);
+				//showing money tree
+				this.gameFormat.ShowMoneyTree(this.questionNumber);
 
+				yield return new WaitForSeconds(3);
+				this.gameFormat.HideMoneyTree();
 				this.LoadQuestion();
 			}
 		}
 		else
 		{
 			this.state = State.WRONG_ANSWER;
-			this.question.answerAnimation[this.question.correctAnswer].Play("WrongAnswer");
+			this.question.answerAnimation[this.question.CorrectAnswer].Play("WrongAnswer");
 			Debug.Log("Wrong! Your total prize is " + this.gameFormat.GetGuaranteedPrizeForQuestion(this.questionNumber));
 		}
 	}

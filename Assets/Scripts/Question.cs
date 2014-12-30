@@ -9,7 +9,7 @@ public class Question {
 	public string question; //question text
 	public string[] answers = new string[4]; //array of 4 answers
 	public int finalAnswer; //0 means A, 1 means B, etc.
-	public int correctAnswer; //0 means A, 1 means B, etc.
+	protected int _correctAnswer; //0 means A, 1 means B, etc.
 	public string correctAnswerText; //text of the correct answer
 	public string synopsis; //short explanation of the correct answer which is shown after user gave his final answer
 	public Animator[] answerAnimation = new Animator[4]; // animators for each answer
@@ -31,6 +31,17 @@ public class Question {
 	}
 
 	/**
+	 * Readonly property for protected _correctAnswer field.
+	 */
+	public int CorrectAnswer
+	{
+		get
+		{
+			return this._correctAnswer;
+		}
+	}
+
+	/**
 	 * Selects one random question from database and renders it on the screen.
 	 */ 
 	protected void GetQuestion()
@@ -41,8 +52,8 @@ public class Question {
 		DataRow row = result[0];
 		this.question = row["question"].ToString();
 		this.answers = new string[] {row["answer1"].ToString(), row["answer2"].ToString(), row["answer3"].ToString(), row["answer4"].ToString()};
-		this.correctAnswer = int.Parse(row["correct_answer"].ToString());
-		this.correctAnswerText = this.answers[this.correctAnswer];
+		this._correctAnswer = int.Parse(row["correct_answer"].ToString());
+		this.correctAnswerText = this.answers[this._correctAnswer];
 		this.synopsis = row["synopsis"].ToString();
 
 		//instantiating logenze prefab
@@ -111,9 +122,6 @@ public class Question {
 			this.answerAnimation[i] = (Animator) GameObject.Find("Ans" + letter + "Image").GetComponent<Animator>();
 			this.answerAnimation[i].Play("ActiveAnswer");
 		}
-		
-		//Debug.Log(this.question.synopsis);
-		//Debug.Log("Question: " + q.question + " Correct answer: " + q.correctAnswer + " - " + q.correctAnswerText);
 	}
 
 	/**
@@ -138,7 +146,7 @@ public class Question {
 	 */
 	public bool IsAnswerCorrect()
 	{
-		return this.finalAnswer == this.correctAnswer;
+		return this.finalAnswer == this._correctAnswer;
 	}
 
 	/**

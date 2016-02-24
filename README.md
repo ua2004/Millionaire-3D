@@ -9,9 +9,13 @@ All fans are welcome to contributing - either by writing code, designing graphic
 What is done so far
 -------------------
 
-* Created question bar (logenze) for classic Millionaire format using new unity UI (you must have Unity 4.6).
+* Added a 3D studio set with a double monitor and armchairs for the host and a player.
 
-![Main scene](https://raw.githubusercontent.com/ua2004/Millionaire-3D/master/Extras/screen1.png)
+![3D studio](https://raw.githubusercontent.com/ua2004/Millionaire-3D/master/Extras/screen2.png)
+
+* Created a question bar (logenze) for classic Millionaire format using new unity UI (you must have Unity 5).
+
+![Logenze](https://raw.githubusercontent.com/ua2004/Millionaire-3D/master/Extras/screen1.png)
 
 * The source logenze image Assets/Graphics/Logenze/Classic.png is Full-HD and is divided into 9 sprites:
   1. Question
@@ -34,7 +38,7 @@ What is planned
 * Clock format (US and UK).
 * Hot Seat format.
 * All other formats that ever appeared on TV (if possible).
-* 3D studio model with colorful lights.
+* Lights moving up and down in the studio set.
 * 3D host model and 3D characters - so that users can choose who they are playing for.
 * Online question database which is updated regularly. Anyone can offer his own question to the game. After moderation, the question is submitted. Online stats where the author of the question can see how many users have answered it correctly.
 

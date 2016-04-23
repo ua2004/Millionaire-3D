@@ -9,5 +9,6 @@ public abstract class Lifeline {
 	/**
 	 * Must be overridden in derived classes.
 	 */
-	public abstract void Use();
+	//public abstract void Use();
+    //public abstract int[] Use();
 }

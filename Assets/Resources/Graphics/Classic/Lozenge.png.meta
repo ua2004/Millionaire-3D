@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 9a3f5bd5975de2443b59c6fbb1951811
+timeCreated: 1459360953
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Lozenge_question
@@ -11,6 +13,16 @@ TextureImporter:
     21300012: Lozenge_right_ans_active
     21300014: Lozenge_right_ans_final
     21300016: Lozenge_right_ans_correct
+    21300018: Lozenge_question_right_side_line
+    21300020: Lozenge_question_left_side_line
+    21300022: Lozenge_left_ans_line
+    21300024: Lozenge_right_ans_line
+    21300026: Lozenge_right_ans_active_line
+    21300028: Lozenge_right_ans_final_line
+    21300030: Lozenge_right_ans_correct_line
+    21300032: Lozenge_left_ans_active_line
+    21300034: Lozenge_left_ans_final_line
+    21300036: Lozenge_left_ans_correct_line
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -24,11 +36,14 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 2048
@@ -39,12 +54,14 @@ TextureImporter:
     wrapMode: 1
   nPOTScale: 0
   lightmap: 0
+  rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
@@ -55,92 +72,491 @@ TextureImporter:
     - name: Lozenge_question
       rect:
         serializedVersion: 2
-        x: 0
+        x: 64
         y: 485
-        width: 1920
+        width: 1788
         height: 202
       alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 203, y: 20, z: 203, w: 20}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 785, y: -98}
+        - {x: 788, y: -96}
+        - {x: 790, y: -96}
+        - {x: 795, y: -94}
+        - {x: 797, y: -92}
+        - {x: 799, y: -91}
+        - {x: 805, y: -86}
+        - {x: 806, y: -86}
+        - {x: 812, y: -80}
+        - {x: 813, y: -80}
+        - {x: 876, y: -17}
+        - {x: 877, y: -17}
+        - {x: 880, y: -14}
+        - {x: 882, y: -14}
+        - {x: 883, y: -13}
+        - {x: 885, y: -13}
+        - {x: 889, y: -11}
+        - {x: 893, y: -11}
+        - {x: 894, y: -10}
+        - {x: 894, y: 11}
+        - {x: 891, y: 11}
+        - {x: 890, y: 12}
+        - {x: 887, y: 12}
+        - {x: 886, y: 13}
+        - {x: 881, y: 14}
+        - {x: 875, y: 19}
+        - {x: 874, y: 19}
+        - {x: 810, y: 83}
+        - {x: 809, y: 83}
+        - {x: 804, y: 89}
+        - {x: 801, y: 90}
+        - {x: 799, y: 92}
+        - {x: 795, y: 93}
+        - {x: 791, y: 96}
+        - {x: 789, y: 96}
+        - {x: 786, y: 98}
+        - {x: 784, y: 98}
+        - {x: 781, y: 100}
+        - {x: 778, y: 100}
+        - {x: 776, y: 101}
+        - {x: -775, y: 101}
+        - {x: -776, y: 100}
+        - {x: -784, y: 98}
+        - {x: -787, y: 96}
+        - {x: -789, y: 96}
+        - {x: -792, y: 94}
+        - {x: -795, y: 93}
+        - {x: -797, y: 91}
+        - {x: -803, y: 88}
+        - {x: -808, y: 82}
+        - {x: -809, y: 82}
+        - {x: -873, y: 18}
+        - {x: -874, y: 18}
+        - {x: -879, y: 14}
+        - {x: -881, y: 14}
+        - {x: -885, y: 12}
+        - {x: -888, y: 12}
+        - {x: -889, y: 11}
+        - {x: -894, y: 11}
+        - {x: -894, y: -10}
+        - {x: -892, y: -10}
+        - {x: -891, y: -11}
+        - {x: -887, y: -11}
+        - {x: -886, y: -12}
+        - {x: -881, y: -13}
+        - {x: -872, y: -19}
+        - {x: -871, y: -19}
+        - {x: -804, y: -86}
+        - {x: -803, y: -86}
+        - {x: -801, y: -89}
+        - {x: -798, y: -90}
+        - {x: -795, y: -92}
+        - {x: -793, y: -94}
+        - {x: -788, y: -96}
+        - {x: -786, y: -96}
+        - {x: -783, y: -98}
+        - {x: -781, y: -98}
+        - {x: -780, y: -99}
+        - {x: -778, y: -99}
+        - {x: -774, y: -101}
+        - {x: 773, y: -101}
+        - {x: 780, y: -100}
+        - {x: 783, y: -98}
     - name: Lozenge_left_ans_inactive
       rect:
         serializedVersion: 2
-        x: 0
+        x: 121
         y: 365
-        width: 960
+        width: 839
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 376.5, y: -20.5}
+        - {x: 390.5, y: -8.5}
+        - {x: 395.5, y: -8.5}
+        - {x: 396.5, y: -7.5}
+        - {x: 419.5, y: -7.5}
+        - {x: 419.5, y: 8.5}
+        - {x: 392.5, y: 8.5}
+        - {x: 391.5, y: 9.5}
+        - {x: 387.5, y: 11.5}
+        - {x: 386.5, y: 11.5}
+        - {x: 347.5, y: 50.5}
+        - {x: 341.5, y: 53.5}
+        - {x: -363.5, y: 53.5}
+        - {x: -368.5, y: 51.5}
+        - {x: -371.5, y: 49.5}
+        - {x: -408.5, y: 12.5}
+        - {x: -409.5, y: 12.5}
+        - {x: -415.5, y: 8.5}
+        - {x: -419.5, y: 8.5}
+        - {x: -419.5, y: -7.5}
+        - {x: -418.5, y: -8.5}
+        - {x: -411.5, y: -10.5}
+        - {x: -410.5, y: -10.5}
+        - {x: -379.5, y: -41.5}
+        - {x: -379.5, y: -43.5}
+        - {x: -372.5, y: -48.5}
+        - {x: -370.5, y: -50.5}
+        - {x: -363.5, y: -53.5}
+        - {x: 340.5, y: -53.5}
+        - {x: 345.5, y: -51.5}
+        - {x: 351.5, y: -46.5}
+        - {x: 376.5, y: -21.5}
     - name: Lozenge_left_ans_active
       rect:
         serializedVersion: 2
-        x: 0
+        x: 122
         y: 244
-        width: 960
+        width: 838
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 375, y: -23.5}
+        - {x: 375, y: -22.5}
+        - {x: 386, y: -12.5}
+        - {x: 390, y: -9.5}
+        - {x: 394, y: -9.5}
+        - {x: 395, y: -8.5}
+        - {x: 419, y: -8.5}
+        - {x: 419, y: 7.5}
+        - {x: 392, y: 7.5}
+        - {x: 391, y: 8.5}
+        - {x: 387, y: 10.5}
+        - {x: 386, y: 10.5}
+        - {x: 349, y: 48.5}
+        - {x: 338, y: 53.5}
+        - {x: -363, y: 53.5}
+        - {x: -372, y: 49.5}
+        - {x: -396, y: 25.5}
+        - {x: -396, y: 24.5}
+        - {x: -409, y: 11.5}
+        - {x: -410, y: 11.5}
+        - {x: -414, y: 8.5}
+        - {x: -419, y: 7.5}
+        - {x: -419, y: -9.5}
+        - {x: -412, y: -11.5}
+        - {x: -411, y: -11.5}
+        - {x: -374, y: -48.5}
+        - {x: -370, y: -51.5}
+        - {x: -366, y: -53.5}
+        - {x: 341, y: -53.5}
+        - {x: 348, y: -50.5}
     - name: Lozenge_left_ans_final
       rect:
         serializedVersion: 2
-        x: 0
+        x: 122
         y: 122
-        width: 960
+        width: 838
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 386, y: -12.5}
+        - {x: 391, y: -8.5}
+        - {x: 395, y: -8.5}
+        - {x: 396, y: -7.5}
+        - {x: 419, y: -7.5}
+        - {x: 419, y: 7.5}
+        - {x: 394, y: 7.5}
+        - {x: 385, y: 12.5}
+        - {x: 373, y: 24.5}
+        - {x: 360, y: 36.5}
+        - {x: 360, y: 37.5}
+        - {x: 349, y: 48.5}
+        - {x: 338, y: 53.5}
+        - {x: -363, y: 53.5}
+        - {x: -372, y: 49.5}
+        - {x: -410, y: 11.5}
+        - {x: -411, y: 11.5}
+        - {x: -419, y: 7.5}
+        - {x: -419, y: -8.5}
+        - {x: -415, y: -8.5}
+        - {x: -404, y: -18.5}
+        - {x: -397, y: -24.5}
+        - {x: -397, y: -25.5}
+        - {x: -373, y: -48.5}
+        - {x: -371, y: -50.5}
+        - {x: -364, y: -53.5}
+        - {x: 340, y: -53.5}
+        - {x: 347, y: -50.5}
+        - {x: 385, y: -12.5}
     - name: Lozenge_left_ans_correct
       rect:
         serializedVersion: 2
-        x: 0
+        x: 122
         y: 0
-        width: 960
+        width: 838
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 385, y: -12.5}
+        - {x: 390, y: -8.5}
+        - {x: 395, y: -8.5}
+        - {x: 396, y: -7.5}
+        - {x: 419, y: -7.5}
+        - {x: 419, y: 7.5}
+        - {x: 396, y: 7.5}
+        - {x: 395, y: 8.5}
+        - {x: 389, y: 9.5}
+        - {x: 387, y: 11.5}
+        - {x: 386, y: 11.5}
+        - {x: 350, y: 47.5}
+        - {x: 346, y: 50.5}
+        - {x: 339, y: 53.5}
+        - {x: -364, y: 53.5}
+        - {x: -369, y: 51.5}
+        - {x: -372, y: 49.5}
+        - {x: -377, y: 45.5}
+        - {x: -390, y: 32.5}
+        - {x: -390, y: 31.5}
+        - {x: -410, y: 11.5}
+        - {x: -411, y: 11.5}
+        - {x: -413, y: 9.5}
+        - {x: -419, y: 8.5}
+        - {x: -419, y: -8.5}
+        - {x: -415, y: -8.5}
+        - {x: -412, y: -10.5}
+        - {x: -373, y: -48.5}
+        - {x: -371, y: -50.5}
+        - {x: -364, y: -53.5}
+        - {x: 340, y: -53.5}
+        - {x: 347, y: -50.5}
     - name: Lozenge_right_ans_inactive
       rect:
         serializedVersion: 2
         x: 960
         y: 365
-        width: 960
+        width: 835
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 401.5, y: -19.5}
+        - {x: 401.5, y: -18.5}
+        - {x: 408.5, y: -12.5}
+        - {x: 413.5, y: -8.5}
+        - {x: 417.5, y: -8.5}
+        - {x: 417.5, y: 8.5}
+        - {x: 410.5, y: 11.5}
+        - {x: 409.5, y: 11.5}
+        - {x: 370.5, y: 50.5}
+        - {x: 365.5, y: 52.5}
+        - {x: 363.5, y: 53.5}
+        - {x: -340.5, y: 53.5}
+        - {x: -345.5, y: 51.5}
+        - {x: -348.5, y: 49.5}
+        - {x: -385.5, y: 12.5}
+        - {x: -386.5, y: 12.5}
+        - {x: -391.5, y: 9.5}
+        - {x: -392.5, y: 8.5}
+        - {x: -417.5, y: 8.5}
+        - {x: -417.5, y: -7.5}
+        - {x: -396.5, y: -7.5}
+        - {x: -395.5, y: -8.5}
+        - {x: -390.5, y: -8.5}
+        - {x: -388.5, y: -10.5}
+        - {x: -387.5, y: -10.5}
+        - {x: -347.5, y: -50.5}
+        - {x: -340.5, y: -53.5}
+        - {x: 363.5, y: -53.5}
+        - {x: 370.5, y: -50.5}
     - name: Lozenge_right_ans_active
       rect:
         serializedVersion: 2
         x: 960
         y: 244
-        width: 960
+        width: 835
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 394.5, y: -26.5}
+        - {x: 409.5, y: -12.5}
+        - {x: 417.5, y: -9.5}
+        - {x: 417.5, y: 7.5}
+        - {x: 410.5, y: 10.5}
+        - {x: 409.5, y: 10.5}
+        - {x: 379.5, y: 40.5}
+        - {x: 380.5, y: 42.5}
+        - {x: 369.5, y: 50.5}
+        - {x: 362.5, y: 53.5}
+        - {x: -339.5, y: 53.5}
+        - {x: -346.5, y: 50.5}
+        - {x: -352.5, y: 45.5}
+        - {x: -370.5, y: 27.5}
+        - {x: -370.5, y: 26.5}
+        - {x: -386.5, y: 11.5}
+        - {x: -392.5, y: 8.5}
+        - {x: -393.5, y: 7.5}
+        - {x: -417.5, y: 7.5}
+        - {x: -417.5, y: -8.5}
+        - {x: -396.5, y: -8.5}
+        - {x: -395.5, y: -9.5}
+        - {x: -388.5, y: -11.5}
+        - {x: -387.5, y: -11.5}
+        - {x: -350.5, y: -48.5}
+        - {x: -346.5, y: -51.5}
+        - {x: -342.5, y: -53.5}
+        - {x: 366.5, y: -53.5}
+        - {x: 375.5, y: -48.5}
+        - {x: 394.5, y: -27.5}
     - name: Lozenge_right_ans_final
       rect:
         serializedVersion: 2
         x: 960
         y: 122
-        width: 949
+        width: 835
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 409.5, y: -12.5}
+        - {x: 414.5, y: -8.5}
+        - {x: 417.5, y: -8.5}
+        - {x: 417.5, y: 7.5}
+        - {x: 416.5, y: 8.5}
+        - {x: 411.5, y: 10.5}
+        - {x: 376.5, y: 44.5}
+        - {x: 375.5, y: 44.5}
+        - {x: 369.5, y: 50.5}
+        - {x: 362.5, y: 53.5}
+        - {x: -339.5, y: 53.5}
+        - {x: -348.5, y: 49.5}
+        - {x: -386.5, y: 11.5}
+        - {x: -387.5, y: 11.5}
+        - {x: -389.5, y: 9.5}
+        - {x: -393.5, y: 8.5}
+        - {x: -394.5, y: 7.5}
+        - {x: -417.5, y: 7.5}
+        - {x: -417.5, y: -7.5}
+        - {x: -397.5, y: -7.5}
+        - {x: -396.5, y: -8.5}
+        - {x: -391.5, y: -8.5}
+        - {x: -389.5, y: -10.5}
+        - {x: -388.5, y: -10.5}
+        - {x: -350.5, y: -48.5}
+        - {x: -340.5, y: -53.5}
+        - {x: 363.5, y: -53.5}
+        - {x: 370.5, y: -50.5}
+        - {x: 408.5, y: -12.5}
     - name: Lozenge_right_ans_correct
       rect:
         serializedVersion: 2
         x: 960
         y: 0
-        width: 960
+        width: 835
         height: 107
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 411.5, y: -10.5}
+        - {x: 413.5, y: -8.5}
+        - {x: 417.5, y: -8.5}
+        - {x: 417.5, y: 8.5}
+        - {x: 412.5, y: 9.5}
+        - {x: 410.5, y: 11.5}
+        - {x: 409.5, y: 11.5}
+        - {x: 373.5, y: 47.5}
+        - {x: 369.5, y: 50.5}
+        - {x: 362.5, y: 53.5}
+        - {x: -340.5, y: 53.5}
+        - {x: -345.5, y: 51.5}
+        - {x: -348.5, y: 49.5}
+        - {x: -353.5, y: 45.5}
+        - {x: -363.5, y: 35.5}
+        - {x: -363.5, y: 34.5}
+        - {x: -386.5, y: 11.5}
+        - {x: -387.5, y: 11.5}
+        - {x: -391.5, y: 9.5}
+        - {x: -396.5, y: 8.5}
+        - {x: -397.5, y: 7.5}
+        - {x: -417.5, y: 7.5}
+        - {x: -417.5, y: -7.5}
+        - {x: -396.5, y: -7.5}
+        - {x: -395.5, y: -8.5}
+        - {x: -388.5, y: -10.5}
+        - {x: -349.5, y: -48.5}
+        - {x: -347.5, y: -50.5}
+        - {x: -340.5, y: -53.5}
+        - {x: 363.5, y: -53.5}
+        - {x: 370.5, y: -50.5}
+        - {x: 410.5, y: -10.5}
+    - name: Lozenge_question_right_side_line
+      rect:
+        serializedVersion: 2
+        x: 1852
+        y: 485
+        width: 65
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32.5, y: -10}
+        - {x: 32.5, y: -10}
+        - {x: 32.5, y: 10}
+        - {x: -32.5, y: 11}
+    - name: Lozenge_question_left_side_line
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 486
+        width: 64
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: -10.5}
+        - {x: 32, y: -10.5}
+        - {x: 32, y: 9.5}
+        - {x: -32, y: 9.5}
+    - name: Lozenge_left_ans_line
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 365
+        width: 121
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -60.5, y: 7.5}
+        - {x: -60.5, y: -7.5}
+        - {x: 60.5, y: -7.5}
+        - {x: 60.5, y: 8.5}
+        - {x: -59.5, y: 8.5}
+    - name: Lozenge_right_ans_line
+      rect:
+        serializedVersion: 2
+        x: 1795
+        y: 365
+        width: 121
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -60.5, y: -8.5}
+        - {x: 60.5, y: -7.5}
+        - {x: 60.5, y: 8.5}
+        - {x: -60.5, y: 8.5}
+    outline: []
   spritePackingTag: 
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 

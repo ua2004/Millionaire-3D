@@ -10,7 +10,7 @@ public class ClassicGameFormat : GameFormat {
 	{
 		this.prefabPath = "Prefabs/Classic/";
 
-		this.moneyTree = new int[]{
+		this.moneyTree = new int[]{            
 			100, //first question prize
 			200, //second question prize
 			300, //etc.

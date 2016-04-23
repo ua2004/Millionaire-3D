@@ -39,13 +39,13 @@ public abstract class GameFormat {
 		get { return this.guaranteedPrizes; }
 	}
 
-	/**
-	 * Returns amount of money that user gets when he answers the question correctly.
-	 * 
-	 * @param int questionNumber starts from 1
-	 * @return int
-	 */
-	public int GetPrizeForQuestion(int questionNumber)
+ 
+    /// <summary>
+    /// Returns amount of money that user gets when he answers the question correctly.
+    /// </summary>
+    /// <param name="questionNumber">number of question (starts from 1)</param>
+    /// <returns>money that player gets</returns>
+    public int GetPrizeForQuestion(int questionNumber)
 	{
 		if( (questionNumber <= 0) || (questionNumber > this.moneyTree.Length) ) // if incorrect question number
 		{
@@ -105,7 +105,7 @@ public abstract class GameFormat {
 		GameObject mtree = (GameObject) GameObject.Instantiate(Resources.Load(this.prefabPath + "MoneyTree"));
 		GameObject canvas = GameObject.Find("Canvas");
 		mtree.transform.SetParent(canvas.transform, false);
-		GameProcessScript gameProcessScript = (GameProcessScript) canvas.GetComponent<GameProcessScript>();
+		GameProcess gameProcess = (GameProcess) canvas.GetComponent<GameProcess>();
 		//removing "(Clone)" suffix from name
 		mtree.transform.name = mtree.transform.name.Replace("(Clone)","").Trim();
 		GameObject a = GameObject.Find("QuestionPrize");
@@ -120,7 +120,7 @@ public abstract class GameFormat {
 			b.transform.name = b.transform.name.Replace("(Clone)","").Trim() + (n - i);
 			Text text = (Text) b.GetComponent<Text>();
 			text.text = (n - i) < 10 ? "  " : "";
-			text.text += (n - i) + "\t\t" + gameProcessScript.l.FormatPrize(this.MoneyTree[n-i-1]);
+			text.text += (n - i) + "\t\t" + gameProcess.l.FormatPrize(this.MoneyTree[n-i-1]);
 			if (System.Array.IndexOf(this.GuaranteedPrizes, n-i) > -1)
 			{
 				text.color = Color.white;

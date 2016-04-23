@@ -10,7 +10,7 @@ public class FinalAnswerScript : MonoBehaviour {
 
 	//public Color32 answerCaptionColorUnselected = new Color(247, 154, 28, 255);
 	//public Color32 answerCaptionColorSelected = new Color(255, 255, 255, 255);
-	public GameProcessScript gameProcess;
+	public GameProcess gameProcess;
 	public Animator answerAnimation;
 
 	public void OnFinalAnswerClick(int answer)

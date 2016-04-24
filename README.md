@@ -8,6 +8,9 @@ All fans are welcome to contributing - either by writing code, designing graphic
 
 What is done so far
 -------------------
+* Added 3D models of player and host.
+
+![3D studio](https://raw.githubusercontent.com/ua2004/Millionaire-3D/master/Extras/screen3.png)
 
 * Added a 3D studio set with a double monitor and armchairs for the host and a player.
 

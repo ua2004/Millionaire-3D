@@ -20,7 +20,8 @@ public class UIManager : MonoBehaviour
     public GameObject lozengePanel;                 //
     public GameObject currentPrizePanel;            //
     public GameObject moneyTreePanel;               //
-    public GameObject timerPaneL;                   //
+    public GameObject timerPanel;                   //
+    public GameObject audiencePanel;                //
 
     public Language language; //current game language chosen by user
 
@@ -28,7 +29,7 @@ public class UIManager : MonoBehaviour
 
     public int currentlyHighlightedAnswer = 0; // equals to number of currently HL answer, 0 if there is no HL answers
 
-
+    private bool canCloseAudiencePanel = false;
 
     void Awake()
     {
@@ -699,6 +700,8 @@ public class UIManager : MonoBehaviour
         {
             GameProcess.gp.LoadQuestion();
         }
+
+        //audiencePanel.SetActive(false);
     }
 
     public void Lifeline5050()
@@ -724,11 +727,83 @@ public class UIManager : MonoBehaviour
         LifelineAudience lifelineAudience = new LifelineAudience();
 
         int[] result = lifelineAudience.Use();
+
+        StartCoroutine(CloseMoneyTreePanel());
+        audiencePanel.SetActive(true);
+       
+        StartCoroutine(LifelineAudienceAnimaton(result));
         Debug.Log("A: " + result[0] + "  B: " + result[1] + "  C: " + result[2] + "  D: " + result[3]);
 
         //making lifelineAudience button not interactable
         //moneyTreePanel.transform.GetChild(1).GetComponent<Image>().sprite = moneyTreeSprites[5];
         //moneyTreePanel.transform.GetChild(1).GetComponent<Button>().interactable = false;
+    }
+
+    IEnumerator LifelineAudienceAnimaton(int[] result)
+    {
+        yield return new WaitForSeconds(2f);
+        int percents = 0;
+
+        Text ansAText = audiencePanel.transform.GetChild(3).GetComponent<Text>();
+        Text ansBText = audiencePanel.transform.GetChild(4).GetComponent<Text>();
+        Text ansCText = audiencePanel.transform.GetChild(5).GetComponent<Text>();
+        Text ansDText = audiencePanel.transform.GetChild(6).GetComponent<Text>();
+
+        Image ansA = audiencePanel.transform.GetChild(7).GetComponent<Image>();
+        Image ansB = audiencePanel.transform.GetChild(8).GetComponent<Image>();
+        Image ansC = audiencePanel.transform.GetChild(9).GetComponent<Image>();
+        Image ansD = audiencePanel.transform.GetChild(10).GetComponent<Image>();
+
+        ansA.fillAmount = 0;
+        ansB.fillAmount = 0;
+        ansC.fillAmount = 0;
+        ansD.fillAmount = 0;
+
+        while (percents <= 100)
+        {
+            if(percents <= result[0])
+            {
+                ansAText.text = percents + "%";
+                ansA.fillAmount = (float)percents / 100f;
+            }
+            //else if(ansAText.text == "0%")
+            //{
+            //}
+
+            if (percents <= result[1])
+            {
+                ansBText.text = percents + "%";
+                ansB.fillAmount = (float)percents / 100f;
+            }
+            //else if (ansBText.text == "0%")
+            //{
+            //}
+
+            if (percents <= result[2])
+            {
+                ansCText.text = percents + "%";
+                ansC.fillAmount = (float)percents / 100f;
+            }
+            //else if (ansAText.text == "0%")
+            //{
+         
+            //}
+
+            if (percents <= result[3])
+            {
+                ansDText.text = percents + "%";
+                ansD.fillAmount = (float)percents / 100f;
+            }
+            //else if (ansAText.text == "0%")
+            //{
+                
+            //}
+
+            percents++;
+
+            yield return new WaitForSeconds(0.04f);
+        }
+        canCloseAudiencePanel = true;
     }
 
     public void LifelinePhone()
@@ -737,6 +812,13 @@ public class UIManager : MonoBehaviour
         lifelinePhone.Use();
     }
 
+    public void AudiencePanelClose()
+    {
+        if(canCloseAudiencePanel)
+        audiencePanel.GetComponent<Animator>().SetBool("ClosePanel", true);
+    }
 
+    
+    
 
 }

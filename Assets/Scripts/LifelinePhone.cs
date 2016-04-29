@@ -5,11 +5,13 @@ using System.Collections;
 
 public class LifelinePhone : MonoBehaviour
 {
+    Animator timerAnimator;
 
     int persentsOfRightAnswer = 80;
 
     public void Use()
     {
+        timerAnimator = UIManager.uim.timerPanel.transform.GetChild(0).GetComponent<Animator>();
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         //if lifeline 5050 was used for this question
         //we have 2 avaliable answers
@@ -110,20 +112,25 @@ public class LifelinePhone : MonoBehaviour
         int timer = 30;
 
         UIManager.uim.StartCoroutine(UIManager.uim.CloseMoneyTreePanel());
-        UIManager.uim.timerPaneL.SetActive(true);
+        UIManager.uim.timerPanel.SetActive(true);
 
-        //waiting untill timer opens
-        yield return new WaitForSeconds(0.611f);
+      
+        
         Debug.Log("- Hmmmm...");
+        timerAnimator.SetBool("StartCountdown", true);
+
+        //litle dellay
+        yield return new WaitForSeconds(0.255f);
 
         while (timer >= 0)
         {
-            UIManager.uim.timerPaneL.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "" + timer;
+            UIManager.uim.timerPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "" + timer;
+            
 
             if (timeOfAnswer == timer)
             {
                 Debug.Log("- I think it's " + answer);
-                UIManager.uim.timerPaneL.transform.GetChild(0).GetComponent<Animator>().SetBool("HideTimer", true);
+                UIManager.uim.timerPanel.transform.GetChild(0).GetComponent<Animator>().SetBool("HideTimer", true);
             }
 
             timer--;

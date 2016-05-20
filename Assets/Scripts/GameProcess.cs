@@ -73,7 +73,9 @@ public class GameProcess : MonoBehaviour
         currentQuestionNumber = 0;
         audioSource.PlayOneShot(classicModeAudio[11]);
 
-        StartCoroutine(LetsPlayLD());        
+        StartCoroutine(LetsPlayLD());
+
+        LightAnimation.SmallCircleUp();       
     }
 
     /// <summary>
@@ -182,17 +184,13 @@ public class GameProcess : MonoBehaviour
     {
         
         //if its first 5 questions
-        if (currentQuestionNumber < 6)
+        if (currentQuestionNumber < 5)
         {
             if (state == State.WAITING_ANSWER)
             {
-                //if it's 5 question then play LD sound than question sound
-                if (currentQuestionNumber == 5)
-                {
-                    StartCoroutine(PlayLDSoundThenQuestionSound());
-                }
-                //else play just question sound
-                else if (currentQuestionNumber == 1)
+                LightAnimation.SmallCircleDown();
+                LightAnimation.BigCircleDown();
+                if (currentQuestionNumber == 1)
                 {
                     audioSource.PlayOneShot(classicModeAudio[12]);
                 }
@@ -203,27 +201,39 @@ public class GameProcess : MonoBehaviour
             }
             else if (state == State.CORRECT_ANSWER)
             {
-                if(currentQuestionNumber == 5)
-                {
-                    audioSource.Stop();
-                }
+                LightAnimation.SmallCircleUp();
+                LightAnimation.BigCircleUp();
+
                 audioSource.PlayOneShot(classicModeAudio[14]);
             }
         }
-        //if it's 6-15 question
+        //if it's 5-15 question
         else
         {            
             if (state == State.WAITING_ANSWER)
-            {                
-                StartCoroutine(PlayLDSoundThenQuestionSound());
+            {
+                //if it's question 5-15 question sound index (5*i-13)
+                if(currentQuestionNumber != 5)
+                {
+                    audioSource.Stop();
+
+                    LightAnimation.SmallCircleUp();
+                    LightAnimation.BigCircleUp();
+                    audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 13]);
+                    Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 13].name);
+                }               
             }
             else if (state == State.FINAL_ANSWER_GIVEN)
             {
-                audioSource.Stop();
-                audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 12]);
-                Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 12].name);
+                if(currentQuestionNumber != 5)
+                {
+                    audioSource.Stop();
+                    audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 12]);
+                    Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 12].name);
+                }
             }
             else if (state == State.WRONG_ANSWER)
+
             {
                 audioSource.Stop();
                 audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 11]);
@@ -232,33 +242,31 @@ public class GameProcess : MonoBehaviour
             else if (state == State.CORRECT_ANSWER)
             {
                 audioSource.Stop();
-                audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 10]);
-                Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 10].name);
+                StartCoroutine(PlayCorrectThenLDSound());
             }
         }
 
 
     }
 
-    public IEnumerator PlayLDSoundThenQuestionSound()
-    {       
-        //if it's question 5, it's LD sound index is different, so it's set manualy
-        if (currentQuestionNumber == 5)
-        {
-            audioSource.Stop();
-            audioSource.PlayOneShot(classicModeAudio[16]);
-            yield return new WaitForSeconds(3f);
-            audioSource.PlayOneShot(classicModeAudio[12]);
-        }
-        //if it's question 6-15, LD index is calculating automatically (5*i-9) | question sound index (5*i-13)
-        else
-        {
-            audioSource.Stop();
-            audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 9]);
-            Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 9].name);
-            yield return new WaitForSeconds(3f);
-            audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 13]);
-            Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 13].name);
-        }
+
+
+    public IEnumerator PlayCorrectThenLDSound()
+    {
+        //if it's question 6-15, correct answer sound's index is calculating automatically (5*i-10) | LD index is calculating automatically (5*i-9)
+        audioSource.Stop();
+        audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 10]);
+        Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 10].name);
+        yield return new WaitForSeconds(5f);
+
+        audioSource.Stop();
+        LightAnimation.SmallCircleDown();
+        audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 9]);
+        Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 9].name);
+        yield return new WaitForSeconds(4f);
+
+        LoadQuestion();
     }
+
+    
 }

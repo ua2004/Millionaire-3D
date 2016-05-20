@@ -8,6 +8,11 @@ public class GameManager : MonoBehaviour
 
     public List<Character> characters; // list of all characters which user can choose | index equals to character's id
 
+    public Animator smallCircleLight;
+    public Animator bigCircleLight;
+    public Animator doorLight;
+    
+
     public int chosedCharacterId; // id of current character
     public bool updatePlayerObject; // true when player changed character so player object should be updated
 

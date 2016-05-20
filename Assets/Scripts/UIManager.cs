@@ -110,10 +110,23 @@ public class UIManager : MonoBehaviour
             }
 
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(KeyCode.Keypad1))
         {
-
+            LightAnimation.SmallCircleUp();
         }
+        else if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            LightAnimation.SmallCircleDown();
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            LightAnimation.BigCircleUp();
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            LightAnimation.BigCircleDown();
+        }
+
 
 
 
@@ -696,7 +709,7 @@ public class UIManager : MonoBehaviour
 
         moneyTreePanel.SetActive(false);
 
-        if (GameProcess.gp.state == State.CORRECT_ANSWER)
+        if (GameProcess.gp.state == State.CORRECT_ANSWER && GameProcess.gp.currentQuestionNumber < 5)
         {
             GameProcess.gp.LoadQuestion();
         }

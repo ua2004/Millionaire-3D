@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 // Require these components when using this script
 [RequireComponent(typeof(Animator))]
@@ -26,13 +27,16 @@ public class PlayerControll : MonoBehaviour
     private CapsuleCollider col;                    // a reference to the capsule collider of the character
 
 
-    static int idleState = Animator.StringToHash("Base Layer.Idle");
-    static int walkState = Animator.StringToHash("Base Layer.WalkTree");
-    static int runState = Animator.StringToHash("Base Layer.RunTree");          // these integers are references to our animator's states
-    static int jumpState = Animator.StringToHash("Base Layer.Jump");            // and are used to check state for various actions to occur	
-    static int kickState = Animator.StringToHash("Base Layer.Kick");
+    private static int idleState = Animator.StringToHash("Base Layer.Idle");
+    private static int walkState = Animator.StringToHash("Base Layer.WalkTree");
+    private static int runState = Animator.StringToHash("Base Layer.RunTree");          // these integers are references to our animator's states
+    private static int jumpState = Animator.StringToHash("Base Layer.Jump");            // and are used to check state for various actions to occur	
+    private static int kickState = Animator.StringToHash("Base Layer.Kick");
 
-    private GameObject chairToSit; // points to chair when player is staying at ti's collider
+    private GameObject chairToSit; // points to chair when player entered it's trigger zone
+
+    private bool isWalking = true;
+    private bool ignoreSitInput = false;
 
     void Awake()
     {
@@ -44,7 +48,6 @@ public class PlayerControll : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
 
     void Start()
@@ -62,103 +65,111 @@ public class PlayerControll : MonoBehaviour
 
     void FixedUpdate()
     {
-        float h = Input.GetAxis("Horizontal");              // setup h variable as our horizontal input axis
-        float v = Input.GetAxis("Vertical");                // setup v variables as our vertical input axis
-        anim.SetFloat("Speed", v);                          // set our animator's float parameter 'Speed' equal to the vertical input axis				
-        anim.SetFloat("Direction", h);                      // set our animator's float parameter 'Direction' equal to the horizontal input axis		
-        anim.speed = animSpeed;                             // set the speed of our animator to the public variable 'animSpeed'
-                                                            //anim.SetLookAtWeight(lookWeight);					// set the Look At Weight - amount to use look at IK vs using the head's animation
-        currentBaseState = anim.GetCurrentAnimatorStateInfo(0); // set our currentState variable to the current state of the Base Layer (0) of animation
-
-        //if player holds LeftShift
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (isWalking)
         {
-            anim.SetBool("Run", true);
-        }
-        else
-        {
-            anim.SetBool("Run", false);
-        }
+            float h = Input.GetAxis("Horizontal");              // setup h variable as our horizontal input axis
+            float v = Input.GetAxis("Vertical");                // setup v variables as our vertical input axis
+            anim.SetFloat("Speed", v);                          // set our animator's float parameter 'Speed' equal to the vertical input axis				
+            anim.SetFloat("Direction", h);                      // set our animator's float parameter 'Direction' equal to the horizontal input axis		
+            anim.speed = animSpeed;                             // set the speed of our animator to the public variable 'animSpeed'
+                                                                //anim.SetLookAtWeight(lookWeight);					// set the Look At Weight - amount to use look at IK vs using the head's animation
+            currentBaseState = anim.GetCurrentAnimatorStateInfo(0); // set our currentState variable to the current state of the Base Layer (0) of animation
 
-
-        //if(anim.layerCount ==2)		
-        //layer2CurrentState = anim.GetCurrentAnimatorStateInfo(1);	// set our layer2CurrentState variable to the current state of the second Layer (1) of animation
-
-
-        // STANDARD JUMPING
-
-        // if we are currently in a walk state, then allow Jump input (Space) to set the Jump bool parameter in the Animator to true
-        if (currentBaseState.nameHash == walkState)
-        {
-            if (Input.GetButtonDown("Jump"))
+            //if player holds LeftShift
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                anim.SetBool("Jump", true);
+                anim.SetBool("Run", true);
             }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                anim.SetBool("Kick", true);
-            }
-        }
-
-        // if we are in the runing state... 
-        else if (currentBaseState.nameHash == runState)
-        {
-            if (Input.GetButtonDown("Jump"))
-            {
-                anim.SetBool("Jump", true);
-            }
-
-        }
-
-        // if we are in the jumping state... 
-        else if (currentBaseState.nameHash == jumpState)
-        {
-            //  ..and not still in transition..
-            if (!anim.IsInTransition(0))
-            {
-                // reset the Jump bool so we can jump again, and so that the state does not loop 
-                anim.SetBool("Jump", false);
-            }
-        }
-
-        // if we are in the idle state...
-        else if (currentBaseState.nameHash == idleState)
-        {
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                anim.SetBool("Kick", true);
-                Kick();
-            }
-        }
-
-        // if we are in the kick state...
-        else if (currentBaseState.nameHash == kickState)
-        {
-            anim.SetBool("Kick", false);
-        }
-
-        // sit down animation
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            //if player is sitting
-            if (anim.GetBool("SitDown"))
-            {
-                StandUp();
-            }
-            //if player is standing
             else
-            {                
-                SitDown();
+            {
+                anim.SetBool("Run", false);
             }
 
+
+            //if(anim.layerCount ==2)		
+            //layer2CurrentState = anim.GetCurrentAnimatorStateInfo(1);	// set our layer2CurrentState variable to the current state of the second Layer (1) of animation
+
+
+            // STANDARD JUMPING
+
+            // if we are currently in a walk state, then allow Jump input (Space) to set the Jump bool parameter in the Animator to true
+            if (currentBaseState.nameHash == walkState)
+            {
+                if (Input.GetButtonDown("Jump"))
+                {
+                    anim.SetBool("Jump", true);
+                }
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    anim.SetBool("Kick", true);
+                }
+            }
+
+            // if we are in the runing state... 
+            else if (currentBaseState.nameHash == runState)
+            {
+                if (Input.GetButtonDown("Jump"))
+                {
+                    anim.SetBool("Jump", true);
+                }
+            }
+
+            // if we are in the jumping state... 
+            else if (currentBaseState.nameHash == jumpState)
+            {
+                //  ..and not still in transition..
+                if (!anim.IsInTransition(0))
+                {
+                    // reset the Jump bool so we can jump again, and so that the state does not loop 
+                    anim.SetBool("Jump", false);
+                }
+            }
+
+            // if we are in the idle state...
+            else if (currentBaseState.nameHash == idleState)
+            {
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    anim.SetBool("Kick", true);
+                    Kick();
+                }
+            }
+
+            // if we are in the kick state...
+            else if (currentBaseState.nameHash == kickState)
+            {
+                anim.SetBool("Kick", false);
+            }
         }
+
+
+
     }
 
     void Update()
     {
 
+        // sit down animation
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("f" + this.GetInstanceID());
+            //if player is walking and he is on chair's trigger zone
+            if (isWalking && chairToSit != null && !ignoreSitInput)
+            {
+                ignoreSitInput = true;
+                Debug.Log("SitDown");
+                SitDown();
+            }
+            //if player is siting
+            else if (!isWalking && !ignoreSitInput)
+            {
+                Debug.Log("atand up");
+                ignoreSitInput = true;
+                StandUp();
+            }
+        }
     }
 
     void OnTriggerEnter(Collider coll)
@@ -185,34 +196,52 @@ public class PlayerControll : MonoBehaviour
 
     void SitDown()
     {
-        //making chair collider as triger
-        Collider chairColl = chairToSit.transform.parent.gameObject.GetComponent<Collider>();
-        chairColl.isTrigger = true;
+        if (chairToSit != null)
+        {
 
-        anim.Play("Idle");
-        //applying new position
-        transform.position = chairToSit.transform.position;
-        transform.rotation = chairToSit.transform.rotation;
+            //making chair collider as triger
+            GameObject chair = chairToSit.transform.parent.gameObject;
+            chair.GetComponent<BoxCollider>().enabled = false;
+            anim.Play("Idle");
 
-        //starting animation
-        anim.SetBool("SitDown", true);
+            anim.SetFloat("Speed", 1);
+            //applying new position
+            transform.DORotate(new Vector3(0f, 180f, 0f), 0.3f);
+            transform.DOMoveZ(chair.transform.position.z - 0.5f, 1.5f).OnComplete(delegate
+            {
+                transform.DORotate(new Vector3(0f, 270f, 0f), 0.5f);
+                transform.DOMoveX(chair.transform.position.x - 0.4f, 1f).OnComplete(delegate
+                {
+                    anim.SetFloat("Speed", 0);
+                    transform.DORotate(new Vector3(0f, 180f, 0f), 0.3f);
+                    anim.SetBool("SitDown", true);
+                    transform.DOMove(new Vector3(chair.transform.position.x - 0.35f, chair.transform.position.y, chair.transform.position.z - 0.1f), 1f);
+                    isWalking = false;
+                    ignoreSitInput = false;
+                });
+            });
 
-        //making "SitDownText" invisible 
-        GameObject.Find("SitDownText").GetComponent<Text>().color = new Color32(255, 255, 255, 0);        
+            //making "SitDownText" invisible 
+            GameObject.Find("SitDownText").GetComponent<Text>().color = new Color32(255, 255, 255, 0);
 
-        //starting the game
-        GameProcess.gp.StartGame();
+            //starting the game
+            GameProcess.gp.StartGame();
+        }
     }
 
     public void StandUp()
     {
-        //making chair collider active
-        Collider chairColl = chairToSit.transform.parent.gameObject.GetComponent<Collider>();
-        chairColl.isTrigger = false;
-       
+        GameObject chair = chairToSit.transform.parent.gameObject;
+        GameProcess.gp.PauseGameProcess();
 
         //applying new position
-        transform.position = chairToSit.transform.position + new Vector3(1, 0, 0);
+        transform.DOMove(chair.transform.position - new Vector3(0f, 0f, 0f), 1.5f).OnComplete(delegate
+            {
+                //making chair collider active
+                chair.GetComponent<BoxCollider>().enabled = true;
+                isWalking = true;
+                ignoreSitInput = false;
+            });
 
         //starting animation
         anim.SetBool("SitDown", false);
@@ -225,6 +254,7 @@ public class PlayerControll : MonoBehaviour
 
         //playing background music
         UIManager.uim.gameObject.GetComponent<AudioSource>().mute = false;
+        UIManager.uim.PauseGameUI();
     }
 
     void Kick()
@@ -236,8 +266,7 @@ public class PlayerControll : MonoBehaviour
             //Debug.Log(c.name);
             if (c.tag == "CanKick")
             {
-                //Debug.Log("THEREEEEEEEEEEEEEEEEEEEEEEEE");
-                c.GetComponent<Rigidbody>().AddForce(transform.rotation.x * 500, transform.rotation.y * 500, transform.rotation.z * 500);
+                //c.GetComponent<Rigidbody>().AddForce(transform.rotation.x * 500, transform.rotation.y * 500, transform.rotation.z * 500);
             }
         }
     }

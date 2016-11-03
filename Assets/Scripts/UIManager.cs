@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     public int currentlyHighlightedAnswer = 0; // equals to number of currently HL answer, 0 if there is no HL answers
 
     private bool canCloseAudiencePanel = false;
+    private bool[] panelsStates = new bool[11];
 
     void Awake()
     {
@@ -126,12 +127,6 @@ public class UIManager : MonoBehaviour
         {
             LightAnimation.BigCircleDown();
         }
-
-
-
-
-
-
     }
 
     //
@@ -743,7 +738,7 @@ public class UIManager : MonoBehaviour
 
         StartCoroutine(CloseMoneyTreePanel());
         audiencePanel.SetActive(true);
-       
+
         StartCoroutine(LifelineAudienceAnimaton(result));
         Debug.Log("A: " + result[0] + "  B: " + result[1] + "  C: " + result[2] + "  D: " + result[3]);
 
@@ -774,7 +769,7 @@ public class UIManager : MonoBehaviour
 
         while (percents <= 100)
         {
-            if(percents <= result[0])
+            if (percents <= result[0])
             {
                 ansAText.text = percents + "%";
                 ansA.fillAmount = (float)percents / 100f;
@@ -799,7 +794,7 @@ public class UIManager : MonoBehaviour
             }
             //else if (ansAText.text == "0%")
             //{
-         
+
             //}
 
             if (percents <= result[3])
@@ -809,7 +804,7 @@ public class UIManager : MonoBehaviour
             }
             //else if (ansAText.text == "0%")
             //{
-                
+
             //}
 
             percents++;
@@ -827,11 +822,68 @@ public class UIManager : MonoBehaviour
 
     public void AudiencePanelClose()
     {
-        if(canCloseAudiencePanel)
-        audiencePanel.GetComponent<Animator>().SetBool("ClosePanel", true);
+        if (canCloseAudiencePanel)
+            audiencePanel.GetComponent<Animator>().SetBool("ClosePanel", true);
     }
 
-    
-    
+    public void PauseGameUI()
+    {
+        Debug.Log("PauseGameUI");
+        SavePanelsStates();
+        
+    }
 
+    public void LoadGameUI()
+    {
+        Debug.Log("LoadGameUI");
+        LoadSavedPanelsStates();
+    }
+
+    private void SavePanelsStates()
+    {
+        panelsStates[0] = startPanel.activeSelf;
+        panelsStates[1] = chooseModePanel.activeSelf;
+        panelsStates[2] = gamePanel.activeSelf;
+        panelsStates[3] = settingsPanel.activeSelf;
+        panelsStates[4] = chooseCharacterPanel.activeSelf;
+        panelsStates[5] = pausePanel.activeSelf;
+        panelsStates[6] = lozengePanel.activeSelf;
+        panelsStates[7] = currentPrizePanel.activeSelf;
+        panelsStates[8] = moneyTreePanel.activeSelf;
+        panelsStates[9] = timerPanel.activeSelf;
+        panelsStates[10] = audiencePanel.activeSelf;
+
+        CloseAllPanels();
+        gamePanel.SetActive(true);
+    }
+
+    private void LoadSavedPanelsStates()
+    {
+        startPanel.SetActive(panelsStates[0]);
+        chooseModePanel.SetActive(panelsStates[1]);
+        gamePanel.SetActive(panelsStates[2]);
+        settingsPanel.SetActive(panelsStates[3]);
+        chooseCharacterPanel.SetActive(panelsStates[4]);
+        pausePanel.SetActive(panelsStates[5]);
+        lozengePanel.SetActive(panelsStates[6]);
+        currentPrizePanel.SetActive(panelsStates[7]);
+        moneyTreePanel.SetActive(panelsStates[8]);
+        timerPanel.SetActive(panelsStates[9]);
+        audiencePanel.SetActive(panelsStates[10]);
+    }
+
+    private void CloseAllPanels()
+    {
+        startPanel.SetActive(false);
+        chooseModePanel.SetActive(false);
+        gamePanel.SetActive(false);
+        settingsPanel.SetActive(false);
+        chooseCharacterPanel.SetActive(false);
+        pausePanel.SetActive(false);
+        lozengePanel.SetActive(false);
+        currentPrizePanel.SetActive(false);
+        moneyTreePanel.SetActive(false);
+        timerPanel.SetActive(false);
+        audiencePanel.SetActive(false);
+    }
 }

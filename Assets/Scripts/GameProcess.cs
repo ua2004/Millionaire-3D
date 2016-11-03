@@ -7,15 +7,15 @@ using System.Collections.Generic;
 public enum State
 {
     GAME_IS_NOT_STARTED,
-	RULE_EXPLANATION,
-	READING_QUESTION,
-	WAITING_ANSWER,
-	FINAL_ANSWER_GIVEN,
-	CORRECT_ANSWER,
-	WRONG_ANSWER,
-	USING_LIFELINE,
-	MONEY_TAKEN,
-	MILLION_WON,
+    RULE_EXPLANATION,
+    READING_QUESTION,
+    WAITING_ANSWER,
+    FINAL_ANSWER_GIVEN,
+    CORRECT_ANSWER,
+    WRONG_ANSWER,
+    USING_LIFELINE,
+    MONEY_TAKEN,
+    MILLION_WON,
 };
 
 public class GameProcess : MonoBehaviour
@@ -33,12 +33,14 @@ public class GameProcess : MonoBehaviour
     public State state; // current game state
 
     public int difficlutyLevel;
-    public int currentQuestionNumber; // number of current question
+    public int currentQuestionNumber = 0; // number of current question
 
     public bool[] isAnswerAvailable = new bool[4]; //some answers may be unavailable after using 50x50 lifeline
     public bool isLifeline5050JustUsed = false;
 
-    public string audioPath = "Music/Classic/";    
+    public string audioPath = "Music/Classic/";
+
+    private bool isPaused = false;
 
     void Awake()
     {
@@ -67,15 +69,29 @@ public class GameProcess : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        UIManager.uim.gameObject.GetComponent<AudioSource>().enabled = false;
-        gameFormat = new ClassicGameFormat();
-        difficlutyLevel = 1;
-        currentQuestionNumber = 0;
-        audioSource.PlayOneShot(classicModeAudio[11]);
+        Debug.Log("game proc start");
+        isPaused = false;
+        if (currentQuestionNumber == 0)
+        {
+            UIManager.uim.gameObject.GetComponent<AudioSource>().enabled = false;
+            gameFormat = new ClassicGameFormat();
+            difficlutyLevel = 1;
+            //currentQuestionNumber = 0;
+            audioSource.PlayOneShot(classicModeAudio[11]);
 
-        StartCoroutine(LetsPlayLD());
+            StartCoroutine(LetsPlayLD());
 
-        LightAnimation.SmallCircleUp();       
+            LightAnimation.SmallCircleUp();
+        }
+        else
+        {
+            UIManager.uim.LoadGameUI();
+        }
+    }
+
+    public void PauseGameProcess()
+    {
+        isPaused = true;
     }
 
     /// <summary>
@@ -162,8 +178,11 @@ public class GameProcess : MonoBehaviour
 
             if (timer < 5)
             {
-                //enable main camera
-                CamerasBehaviour.cb.EnableCamera(2);
+                if (!isPaused)
+                {
+                    //enable main camera
+                    CamerasBehaviour.cb.EnableCamera(2);
+                }
             }
 
             yield return new WaitForSeconds(1f);
@@ -174,15 +193,17 @@ public class GameProcess : MonoBehaviour
 
         yield return new WaitForSeconds(4);
 
-        // enabling game cameras
-        CamerasBehaviour.cb.EnableGameCameras();
-
-        LoadQuestion();
+        if (!isPaused)
+        {
+            // enabling game cameras
+            CamerasBehaviour.cb.EnableGameCameras();
+            LoadQuestion();
+        }
     }
 
     public void PlaySound()
     {
-        
+
         //if its first 5 questions
         if (currentQuestionNumber < 5)
         {
@@ -209,11 +230,11 @@ public class GameProcess : MonoBehaviour
         }
         //if it's 5-15 question
         else
-        {            
+        {
             if (state == State.WAITING_ANSWER)
             {
                 //if it's question 5-15 question sound index (5*i-13)
-                if(currentQuestionNumber != 5)
+                if (currentQuestionNumber != 5)
                 {
                     audioSource.Stop();
 
@@ -221,11 +242,11 @@ public class GameProcess : MonoBehaviour
                     LightAnimation.BigCircleUp();
                     audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 13]);
                     Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 13].name);
-                }               
+                }
             }
             else if (state == State.FINAL_ANSWER_GIVEN)
             {
-                if(currentQuestionNumber != 5)
+                if (currentQuestionNumber != 5)
                 {
                     audioSource.Stop();
                     audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 12]);
@@ -268,5 +289,5 @@ public class GameProcess : MonoBehaviour
         LoadQuestion();
     }
 
-    
+
 }

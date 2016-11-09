@@ -22,6 +22,7 @@ public class GameProcess : MonoBehaviour
 {
 
     public static GameProcess gp; // static variable which is used to get reference to GameProcess instance from every script
+    public static bool isPaused = false;
 
     public Language l; //current game language chosen by user
     public Question question;
@@ -40,7 +41,9 @@ public class GameProcess : MonoBehaviour
 
     public string audioPath = "Music/Classic/";
 
-    private bool isPaused = false;
+    public delegate void ContinuePoint();
+    public ContinuePoint continuePoint;
+
 
     void Awake()
     {
@@ -69,7 +72,7 @@ public class GameProcess : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        Debug.Log("game proc start");
+        //Debug.Log("game proc start");
         isPaused = false;
         if (currentQuestionNumber == 0)
         {
@@ -86,6 +89,7 @@ public class GameProcess : MonoBehaviour
         else
         {
             UIManager.uim.LoadGameUI();
+            ContinueGameProcess();
         }
     }
 
@@ -94,27 +98,46 @@ public class GameProcess : MonoBehaviour
         isPaused = true;
     }
 
+    private void ContinueGameProcess()
+    {
+        isPaused = false;
+
+        if (continuePoint != null)
+        {
+            Debug.Log("continued saved process");
+            continuePoint();
+            continuePoint = null;
+        }
+        //else
+        //{
+        //    //Debug.Log("there is no saved process");
+        //}
+    }
+
     /// <summary>
     /// Loads question from data base and shows lozenge panel
     /// </summary>
 	public void LoadQuestion()
     {
-        currentQuestionNumber++;
-
-        state = State.WAITING_ANSWER;
-
-        //playing question audio
-        PlaySound();
-
-
-        for (int i = 0; i <= 3; i++)
+        if (state != State.WAITING_ANSWER)
         {
-            isAnswerAvailable[i] = true;
+            Debug.Log("load question");
+            currentQuestionNumber++;
+
+            state = State.WAITING_ANSWER;
+
+            //playing question audio
+            PlaySound();
+
+
+            for (int i = 0; i <= 3; i++)
+            {
+                isAnswerAvailable[i] = true;
+            }
+            question = new Question();
+
+            isLifeline5050JustUsed = false;
         }
-        question = new Question();
-
-        isLifeline5050JustUsed = false;
-
     }
 
     /// <summary>
@@ -143,7 +166,9 @@ public class GameProcess : MonoBehaviour
             {
                 state = State.MILLION_WON;
                 Debug.Log("Bravo! You are a millionaire!");
-                UIManager.uim.CorrectAnswer(question.finalAnswer, 1000000);
+                UIManager.uim.StartCoroutine(UIManager.uim.CorrectAnswer(question.finalAnswer, 1000000));
+                state = State.GAME_IS_NOT_STARTED;
+                currentQuestionNumber = 0;
             }
             //if it's not last question
             else
@@ -153,8 +178,6 @@ public class GameProcess : MonoBehaviour
                 Debug.Log("Correct! You won " + gameFormat.GetPrizeForQuestion(currentQuestionNumber));
                 UIManager.uim.StartCoroutine(UIManager.uim.CorrectAnswer(question.finalAnswer, gameFormat.GetPrizeForQuestion(currentQuestionNumber)));
                 yield return new WaitForSeconds(1);
-
-                //this.LoadQuestion();
             }
         }
         else
@@ -163,6 +186,8 @@ public class GameProcess : MonoBehaviour
             PlaySound();
             UIManager.uim.StartCoroutine(UIManager.uim.WrondAnswer(question.CorrectAnswer, gameFormat.GetGuaranteedPrizeForQuestion(currentQuestionNumber)));
             Debug.Log("Wrong! Your total prize is " + gameFormat.GetGuaranteedPrizeForQuestion(currentQuestionNumber));
+            state = State.GAME_IS_NOT_STARTED;
+            currentQuestionNumber = 0;
         }
     }
 
@@ -271,7 +296,6 @@ public class GameProcess : MonoBehaviour
     }
 
 
-
     public IEnumerator PlayCorrectThenLDSound()
     {
         //if it's question 6-15, correct answer sound's index is calculating automatically (5*i-10) | LD index is calculating automatically (5*i-9)
@@ -286,7 +310,14 @@ public class GameProcess : MonoBehaviour
         Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 9].name);
         yield return new WaitForSeconds(4f);
 
-        LoadQuestion();
+        if (GameProcess.isPaused)
+        {
+            continuePoint = LoadQuestion;
+        }
+        else
+        {
+            LoadQuestion();
+        }
     }
 
 

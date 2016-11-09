@@ -491,11 +491,17 @@ public class UIManager : MonoBehaviour
     public IEnumerator ShowCurrentPrizePanel(int profit, bool isGameOver)
     {
         currentPrizePanel.transform.GetChild(1).GetComponent<Text>().text = "" + profit;
+        if(GameProcess.gp.state == State.MILLION_WON)
+        {
+            currentPrizePanel.transform.GetChild(2).gameObject.SetActive(true);
+        }
+
         currentPrizePanel.SetActive(true);
 
         yield return new WaitForSeconds(4f);
 
         currentPrizePanel.SetActive(false);
+        currentPrizePanel.transform.GetChild(2).gameObject.SetActive(false);
 
         if (isGameOver)
         {
@@ -503,7 +509,10 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ShowMoneyTreePanel());
+            if(GameProcess.gp.state != State.MILLION_WON)
+            {
+                StartCoroutine(ShowMoneyTreePanel());
+            }
         }
 
     }
@@ -706,10 +715,16 @@ public class UIManager : MonoBehaviour
 
         if (GameProcess.gp.state == State.CORRECT_ANSWER && GameProcess.gp.currentQuestionNumber < 5)
         {
-            GameProcess.gp.LoadQuestion();
+            if (GameProcess.isPaused)
+            {
+                GameProcess.gp.continuePoint = GameProcess.gp.LoadQuestion;
+            }
+            else
+            {
+                GameProcess.gp.LoadQuestion();
+            }
         }
 
-        //audiencePanel.SetActive(false);
     }
 
     public void Lifeline5050()
@@ -830,7 +845,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("PauseGameUI");
         SavePanelsStates();
-        
+
     }
 
     public void LoadGameUI()

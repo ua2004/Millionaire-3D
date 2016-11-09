@@ -154,7 +154,6 @@ public class PlayerControll : MonoBehaviour
         // sit down animation
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log("f" + this.GetInstanceID());
             //if player is walking and he is on chair's trigger zone
             if (isWalking && chairToSit != null && !ignoreSitInput)
             {
@@ -203,20 +202,22 @@ public class PlayerControll : MonoBehaviour
             GameObject chair = chairToSit.transform.parent.gameObject;
             chair.GetComponent<BoxCollider>().enabled = false;
             anim.Play("Idle");
+            isWalking = false;
 
             anim.SetFloat("Speed", 1);
             //applying new position
+
+            Vector3 seatRotation = transform.position.x > chair.transform.position.x ? new Vector3(0f, 270f, 0f) : new Vector3(0f, 90f, 0f);
             transform.DORotate(new Vector3(0f, 180f, 0f), 0.3f);
             transform.DOMoveZ(chair.transform.position.z - 0.5f, 1.5f).OnComplete(delegate
             {
-                transform.DORotate(new Vector3(0f, 270f, 0f), 0.5f);
+                transform.DORotate(seatRotation, 0.5f);
                 transform.DOMoveX(chair.transform.position.x - 0.4f, 1f).OnComplete(delegate
                 {
                     anim.SetFloat("Speed", 0);
                     transform.DORotate(new Vector3(0f, 180f, 0f), 0.3f);
                     anim.SetBool("SitDown", true);
                     transform.DOMove(new Vector3(chair.transform.position.x - 0.35f, chair.transform.position.y, chair.transform.position.z - 0.1f), 1f);
-                    isWalking = false;
                     ignoreSitInput = false;
                 });
             });

@@ -86,11 +86,11 @@ public class GameProcess : MonoBehaviour
 
             LightAnimation.SmallCircleUp();
         }
-        else
-        {
-            UIManager.uim.LoadGameUI();
-            ContinueGameProcess();
-        }
+        //else
+        //{
+        //    UIManager.uim.LoadGameUI();
+        //    ContinueGameProcess();
+        //}
     }
 
     public void PauseGameProcess()

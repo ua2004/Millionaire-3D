@@ -233,7 +233,8 @@ public class PlayerControll : MonoBehaviour
     public void StandUp()
     {
         GameObject chair = chairToSit.transform.parent.gameObject;
-        GameProcess.gp.PauseGameProcess();
+        //GameProcess.gp.PauseGameProcess();
+        //UIManager.uim.PauseGameUI();
 
         //applying new position
         transform.DOMove(chair.transform.position - new Vector3(0f, 0f, 0f), 1.5f).OnComplete(delegate
@@ -255,7 +256,6 @@ public class PlayerControll : MonoBehaviour
 
         //playing background music
         UIManager.uim.gameObject.GetComponent<AudioSource>().mute = false;
-        UIManager.uim.PauseGameUI();
     }
 
     void Kick()

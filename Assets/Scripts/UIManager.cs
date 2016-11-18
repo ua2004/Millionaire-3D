@@ -490,10 +490,12 @@ public class UIManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator ShowCurrentPrizePanel(int profit, bool isGameOver)
     {
-        currentPrizePanel.transform.GetChild(1).GetComponent<Text>().text = "" + profit;
+        currentPrizePanel.transform.GetChild(2).GetComponent<Text>().text = "" + profit;
+
         if(GameProcess.gp.state == State.MILLION_WON)
         {
-            currentPrizePanel.transform.GetChild(2).gameObject.SetActive(true);
+            currentPrizePanel.transform.GetChild(3).gameObject.SetActive(true);
+            currentPrizePanel.transform.GetChild(0).gameObject.SetActive(true);
         }
 
         currentPrizePanel.SetActive(true);
@@ -501,7 +503,10 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(4f);
 
         currentPrizePanel.SetActive(false);
-        currentPrizePanel.transform.GetChild(2).gameObject.SetActive(false);
+        currentPrizePanel.transform.GetChild(3).gameObject.SetActive(false);
+        currentPrizePanel.transform.GetChild(0).gameObject.SetActive(false);
+
+        
 
         if (isGameOver)
         {
@@ -512,6 +517,12 @@ public class UIManager : MonoBehaviour
             if(GameProcess.gp.state != State.MILLION_WON)
             {
                 StartCoroutine(ShowMoneyTreePanel());
+            }
+            else
+            {
+                GameProcess.gp.state = State.GAME_IS_NOT_STARTED;
+                GameProcess.gp.currentQuestionNumber = 0;
+                PlayerControll.pc.StandUp();
             }
         }
 

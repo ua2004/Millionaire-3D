@@ -167,8 +167,7 @@ public class GameProcess : MonoBehaviour
                 state = State.MILLION_WON;
                 Debug.Log("Bravo! You are a millionaire!");
                 UIManager.uim.StartCoroutine(UIManager.uim.CorrectAnswer(question.finalAnswer, 1000000));
-                state = State.GAME_IS_NOT_STARTED;
-                currentQuestionNumber = 0;
+                
             }
             //if it's not last question
             else

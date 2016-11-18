@@ -234,11 +234,10 @@ public class UIManager : MonoBehaviour
         lozengePanel.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = questionText;
         lozengePanel.SetActive(true);
 
-        //setting answers texts and making buttons interactable
+        //setting answers texts
         for (int i = 0; i < 4; i++)
         {
             lozengePanel.transform.GetChild(i + 3).GetChild(1).GetComponent<Text>().text = answers[i];
-            lozengePanel.transform.GetChild(i + 3).GetChild(2).GetComponent<Button>().interactable = true;
         }
 
     }
@@ -536,7 +535,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void ResetMoneyTreePanel()
     {
-        for(int i = 3; i < 18; i++)
+        for (int i = 3; i < 18; i++)
         {
             moneyTreePanel.transform.GetChild(i).GetChild(2).gameObject.SetActive(false);
         }

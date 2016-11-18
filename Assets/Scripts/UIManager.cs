@@ -495,8 +495,6 @@ public class UIManager : MonoBehaviour
         {
             currentPrizePanel.transform.GetChild(3).gameObject.SetActive(true);
             currentPrizePanel.transform.GetChild(0).gameObject.SetActive(true);
-
-            ResetMoneyTreePanel();
         }
 
         currentPrizePanel.SetActive(true);
@@ -511,7 +509,6 @@ public class UIManager : MonoBehaviour
 
         if (isGameOver)
         {
-            ResetMoneyTreePanel();
             PlayerControll.pc.StandUp();
         }
         else
@@ -537,7 +534,17 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 3; i < 18; i++)
         {
+            //hiding all diamonds
             moneyTreePanel.transform.GetChild(i).GetChild(2).gameObject.SetActive(false);
+
+            if(GameManager.itIsUkrainianVersion)
+            {
+                moneyTreePanel.transform.GetChild(i).GetChild(1).GetComponent<Text>().text = GameFormat.moneyTreeUa[i - 3];
+            }
+            else if(GameManager.itIsEnglishVersion)
+            {
+                moneyTreePanel.transform.GetChild(i).GetChild(1).GetComponent<Text>().text = GameFormat.moneyTreeUK[i - 3];
+            }
         }
     }
 

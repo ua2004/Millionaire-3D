@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager gm; // static variable which is used to get reference to GameManager instance from every script
 
+    public static bool itIsUkrainianVersion = true; //currently set as true
+    public static bool itIsEnglishVersion = false;  //currently set as false
+
     public List<Character> characters; // list of all characters which user can choose | index equals to character's id
 
     public Animator smallCircleLight;

@@ -77,6 +77,8 @@ public class GameProcess : MonoBehaviour
         if (currentQuestionNumber == 0)
         {
             UIManager.uim.gameObject.GetComponent<AudioSource>().enabled = false;
+            UIManager.uim.ResetMoneyTreePanel();
+
             gameFormat = new ClassicGameFormat();
             difficlutyLevel = 1;
             //currentQuestionNumber = 0;

@@ -55,6 +55,23 @@ public class GameManager : MonoBehaviour
         updatePlayerObject = false;
     }
 
+    void Update()
+    {
+#if UNITY_EDITOR
+        if(Input.GetKey(KeyCode.G))
+        {
+            Time.timeScale = 2f;
+        }
+        else if(Input.GetKey(KeyCode.H))
+        {
+            Time.timeScale = 5f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+#endif
+    }
 }
 
 [System.Serializable]

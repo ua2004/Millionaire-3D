@@ -492,10 +492,12 @@ public class UIManager : MonoBehaviour
     {
         currentPrizePanel.transform.GetChild(2).GetComponent<Text>().text = "" + profit;
 
-        if(GameProcess.gp.state == State.MILLION_WON)
+        if (GameProcess.gp.state == State.MILLION_WON)
         {
             currentPrizePanel.transform.GetChild(3).gameObject.SetActive(true);
             currentPrizePanel.transform.GetChild(0).gameObject.SetActive(true);
+
+            ResetMoneyTreePanel();
         }
 
         currentPrizePanel.SetActive(true);
@@ -506,15 +508,16 @@ public class UIManager : MonoBehaviour
         currentPrizePanel.transform.GetChild(3).gameObject.SetActive(false);
         currentPrizePanel.transform.GetChild(0).gameObject.SetActive(false);
 
-        
+
 
         if (isGameOver)
         {
+            ResetMoneyTreePanel();
             PlayerControll.pc.StandUp();
         }
         else
         {
-            if(GameProcess.gp.state != State.MILLION_WON)
+            if (GameProcess.gp.state != State.MILLION_WON)
             {
                 StartCoroutine(ShowMoneyTreePanel());
             }
@@ -526,6 +529,17 @@ public class UIManager : MonoBehaviour
             }
         }
 
+    }
+
+    /// <summary>
+    /// Hides all diamonds (if they are active after previous game)
+    /// </summary>
+    public void ResetMoneyTreePanel()
+    {
+        for(int i = 3; i < 18; i++)
+        {
+            moneyTreePanel.transform.GetChild(i).GetChild(2).gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -674,6 +688,7 @@ public class UIManager : MonoBehaviour
         //highlighting and changing text color to black
         moneyTreePanel.transform.GetChild(18 - questionNumber).GetChild(0).gameObject.SetActive(true);
         moneyTreePanel.transform.GetChild(18 - questionNumber).GetChild(1).GetComponent<Text>().color = new Color32(0, 0, 0, 255);
+        moneyTreePanel.transform.GetChild(18 - questionNumber).GetChild(2).gameObject.SetActive(true);
     }
 
 

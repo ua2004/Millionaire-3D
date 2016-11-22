@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 
 //current game state
 public enum State
@@ -47,6 +48,7 @@ public class GameProcess : MonoBehaviour
     public delegate void ContinuePoint();
     public ContinuePoint continuePoint;
 
+    private float pauseAudioTime;
 
     void Awake()
     {
@@ -334,4 +336,24 @@ public class GameProcess : MonoBehaviour
         soundsAudioSource.PlayOneShot(classicModeAudio[70]);
     }
 
+    public void PauseMusic()
+    {
+        //pauseAudioTime = musicAudioSource.time;
+        musicAudioSource.Stop();
+    }
+
+    public void UnPauseMusic()
+    {
+        PlaySound();
+        //musicAudioSource.time = pauseAudioTime;
+    }
+
+    public void PlayLifelineAudienceMusic()
+    {
+        PauseMusic();
+
+        soundsAudioSource.PlayOneShot(classicModeAudio[71]);
+
+        DOVirtual.DelayedCall(classicModeAudio[71].length, UnPauseMusic);
+    }
 }

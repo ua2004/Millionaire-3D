@@ -783,6 +783,7 @@ public class UIManager : MonoBehaviour
 
     public void LifelineAudiense()
     {
+        GameProcess.instance.PlayLifelineAudienceMusic();
         LifelineAudience lifelineAudience = new LifelineAudience();
 
         int[] result = lifelineAudience.Use();
@@ -800,7 +801,7 @@ public class UIManager : MonoBehaviour
 
     IEnumerator LifelineAudienceAnimaton(int[] result)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(32f);
         int percents = 0;
 
         Text ansAText = audiencePanel.transform.GetChild(3).GetComponent<Text>();

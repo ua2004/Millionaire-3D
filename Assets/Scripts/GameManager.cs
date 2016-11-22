@@ -73,6 +73,14 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
+         if (Input.GetKey(KeyCode.V))
+        {
+            GameProcess.instance.PauseMusic();
+        }
+        else if (Input.GetKey(KeyCode.B))
+        {
+            GameProcess.instance.UnPauseMusic();
+        }
 #endif
     }
 }

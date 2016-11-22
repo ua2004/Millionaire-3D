@@ -11,18 +11,18 @@ public class LifelinePhone : MonoBehaviour
 
     public void Use()
     {
-        timerAnimator = UIManager.uim.timerPanel.transform.GetChild(0).GetComponent<Animator>();
+        timerAnimator = UIManager.instance.timerPanel.transform.GetChild(0).GetComponent<Animator>();
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         //if lifeline 5050 was used for this question
         //we have 2 avaliable answers
         ///////////////////////////////////////////////////////////////////////////////////////////////////
-        if (GameProcess.gp.isLifeline5050JustUsed)
+        if (GameProcess.instance.isLifeline5050JustUsed)
         {
             //probability of true equals to persentsOfRightAnswer%
             if (Random.Range(1, 101) < persentsOfRightAnswer)
             {
                 //returnig correct answer
-                ApplyLifeline(GameProcess.gp.question.CorrectAnswer);
+                ApplyLifeline(GameProcess.instance.question.CorrectAnswer);
             }
             else
             {
@@ -31,7 +31,7 @@ public class LifelinePhone : MonoBehaviour
                 //finding id of wrong answer
                 for (int i = 0; i < 4; i++)
                 {
-                    if (GameProcess.gp.isAnswerAvailable[i] == true && GameProcess.gp.question.CorrectAnswer != i + 1)
+                    if (GameProcess.instance.isAnswerAvailable[i] == true && GameProcess.instance.question.CorrectAnswer != i + 1)
                     {
                         idOfWrongAnswer = i + 1;
                     }
@@ -50,7 +50,7 @@ public class LifelinePhone : MonoBehaviour
             if (Random.Range(1, 101) < persentsOfRightAnswer)
             {
                 //returnig correct answer
-                ApplyLifeline(GameProcess.gp.question.CorrectAnswer);
+                ApplyLifeline(GameProcess.instance.question.CorrectAnswer);
             }
             else
             {
@@ -61,7 +61,7 @@ public class LifelinePhone : MonoBehaviour
                 {
                     wrongAnswer = Random.Range(1, 5);
                 }
-                while (wrongAnswer == GameProcess.gp.question.CorrectAnswer);
+                while (wrongAnswer == GameProcess.instance.question.CorrectAnswer);
                 ApplyLifeline(wrongAnswer);
             }
         }
@@ -78,16 +78,16 @@ public class LifelinePhone : MonoBehaviour
 
         switch (answer)
         {
-            case 1: UIManager.uim.StartCoroutine(LifelinePhoneAnimation("A")); break;
-            case 2: UIManager.uim.StartCoroutine(LifelinePhoneAnimation("B")); break;
-            case 3: UIManager.uim.StartCoroutine(LifelinePhoneAnimation("C")); break;
-            case 4: UIManager.uim.StartCoroutine(LifelinePhoneAnimation("D")); break;
+            case 1: UIManager.instance.StartCoroutine(LifelinePhoneAnimation("A")); break;
+            case 2: UIManager.instance.StartCoroutine(LifelinePhoneAnimation("B")); break;
+            case 3: UIManager.instance.StartCoroutine(LifelinePhoneAnimation("C")); break;
+            case 4: UIManager.instance.StartCoroutine(LifelinePhoneAnimation("D")); break;
         }
 
 
         //making lifelinePhone button not interactable
-        UIManager.uim.moneyTreePanel.transform.GetChild(2).GetComponent<Image>().sprite = UIManager.uim.moneyTreeSprites[8];
-        UIManager.uim.moneyTreePanel.transform.GetChild(2).GetComponent<Button>().interactable = false;
+        UIManager.instance.moneyTreePanel.transform.GetChild(2).GetComponent<Image>().sprite = UIManager.instance.moneyTreeSprites[8];
+        UIManager.instance.moneyTreePanel.transform.GetChild(2).GetComponent<Button>().interactable = false;
     }
 
     public IEnumerator newc()
@@ -111,8 +111,8 @@ public class LifelinePhone : MonoBehaviour
         int timeOfAnswer = Random.Range(0, 25); // time on tiner when friend will give an answer
         int timer = 30;
 
-        UIManager.uim.StartCoroutine(UIManager.uim.CloseMoneyTreePanel());
-        UIManager.uim.timerPanel.SetActive(true);
+        UIManager.instance.StartCoroutine(UIManager.instance.CloseMoneyTreePanel());
+        UIManager.instance.timerPanel.SetActive(true);
 
       
         
@@ -124,13 +124,13 @@ public class LifelinePhone : MonoBehaviour
 
         while (timer >= 0)
         {
-            UIManager.uim.timerPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "" + timer;
+            UIManager.instance.timerPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "" + timer;
             
 
             if (timeOfAnswer == timer)
             {
                 Debug.Log("- I think it's " + answer);
-                UIManager.uim.timerPanel.transform.GetChild(0).GetComponent<Animator>().SetBool("HideTimer", true);
+                UIManager.instance.timerPanel.transform.GetChild(0).GetComponent<Animator>().SetBool("HideTimer", true);
             }
 
             timer--;

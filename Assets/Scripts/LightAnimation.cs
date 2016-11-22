@@ -7,26 +7,26 @@ public static class LightAnimation
     public static void SmallCircleUp()
     {
         //Debug.Log("sc light up animation");
-        GameManager.gm.smallCircleLight.SetTrigger("lightUp");
+        GameManager.instance.smallCircleLight.SetTrigger("lightUp");
     }
 
     public static void SmallCircleDown()
     {
         //Debug.Log("sc light down animation");
-        GameManager.gm.smallCircleLight.SetTrigger("lightDown");
+        GameManager.instance.smallCircleLight.SetTrigger("lightDown");
     }
 
     public static void BigCircleUp()
     {
         //Debug.Log("bc light up animation");
-        GameManager.gm.bigCircleLight.SetTrigger("lightUp");
-        GameManager.gm.doorLight.SetTrigger("lightUp");
+        GameManager.instance.bigCircleLight.SetTrigger("lightUp");
+        GameManager.instance.doorLight.SetTrigger("lightUp");
     }
 
     public static void BigCircleDown()
     {
         //Debug.Log("bc light down animation");
-        GameManager.gm.bigCircleLight.SetTrigger("lightDown");
-        GameManager.gm.doorLight.SetTrigger("lightDown");
+        GameManager.instance.bigCircleLight.SetTrigger("lightDown");
+        GameManager.instance.doorLight.SetTrigger("lightDown");
     }
 }

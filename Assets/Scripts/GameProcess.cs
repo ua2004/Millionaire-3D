@@ -18,16 +18,19 @@ public enum State
     MILLION_WON,
 };
 
+    [RequireComponent(typeof (AudioSource))]
+    [RequireComponent(typeof (AudioSource))]
 public class GameProcess : MonoBehaviour
 {
 
-    public static GameProcess gp; // static variable which is used to get reference to GameProcess instance from every script
+    public static GameProcess instance; // static variable which is used to get reference to GameProcess instance from every script
     public static bool isPaused = false;
 
     public Language l; //current game language chosen by user
     public Question question;
     public GameFormat gameFormat;
-    public AudioSource audioSource; // audio source for all game sounds exept main theme(on GameManager obj)
+    public AudioSource soundsAudioSource; // audio source for all game sounds (placed on GameManger object)
+    public AudioSource musicAudioSource; // audio source for all game music (placed on GameManager object)
 
     public List<AudioClip> classicModeAudio = new List<AudioClip>();// list of all audio file used at classic mode
 
@@ -47,12 +50,13 @@ public class GameProcess : MonoBehaviour
 
     void Awake()
     {
-        if (gp == null)
+        if (instance == null)
         {
-            gp = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        audioSource = GetComponent<AudioSource>();
+
+        PlayMainTheme();
     }
 
     void Start()
@@ -64,7 +68,7 @@ public class GameProcess : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.V))
         {
-            audioSource.Stop();
+            musicAudioSource.Stop();
         }
     }
     /// <summary>
@@ -76,13 +80,13 @@ public class GameProcess : MonoBehaviour
         isPaused = false;
         if (currentQuestionNumber == 0)
         {
-            UIManager.uim.gameObject.GetComponent<AudioSource>().enabled = false;
-            UIManager.uim.ResetMoneyTreePanel();
+            UIManager.instance.ResetMoneyTreePanel();
 
             gameFormat = new ClassicGameFormat();
             difficlutyLevel = 1;
             //currentQuestionNumber = 0;
-            audioSource.PlayOneShot(classicModeAudio[11]);
+            musicAudioSource.Stop();
+            musicAudioSource.PlayOneShot(classicModeAudio[11]);
 
             StartCoroutine(LetsPlayLD());
 
@@ -168,7 +172,7 @@ public class GameProcess : MonoBehaviour
             {
                 state = State.MILLION_WON;
                 Debug.Log("Bravo! You are a millionaire!");
-                UIManager.uim.StartCoroutine(UIManager.uim.CorrectAnswer(question.finalAnswer, 1000000));
+                UIManager.instance.StartCoroutine(UIManager.instance.CorrectAnswer(question.finalAnswer, 1000000));
                 
             }
             //if it's not last question
@@ -177,7 +181,7 @@ public class GameProcess : MonoBehaviour
                 state = State.CORRECT_ANSWER;
                 PlaySound();
                 Debug.Log("Correct! You won " + gameFormat.GetPrizeForQuestion(currentQuestionNumber));
-                UIManager.uim.StartCoroutine(UIManager.uim.CorrectAnswer(question.finalAnswer, gameFormat.GetPrizeForQuestion(currentQuestionNumber)));
+                UIManager.instance.StartCoroutine(UIManager.instance.CorrectAnswer(question.finalAnswer, gameFormat.GetPrizeForQuestion(currentQuestionNumber)));
                 yield return new WaitForSeconds(1);
             }
         }
@@ -185,7 +189,7 @@ public class GameProcess : MonoBehaviour
         {
             state = State.WRONG_ANSWER;
             PlaySound();
-            UIManager.uim.StartCoroutine(UIManager.uim.WrondAnswer(question.CorrectAnswer, gameFormat.GetGuaranteedPrizeForQuestion(currentQuestionNumber)));
+            UIManager.instance.StartCoroutine(UIManager.instance.WrondAnswer(question.CorrectAnswer, gameFormat.GetGuaranteedPrizeForQuestion(currentQuestionNumber)));
             Debug.Log("Wrong! Your total prize is " + gameFormat.GetGuaranteedPrizeForQuestion(currentQuestionNumber));
             state = State.GAME_IS_NOT_STARTED;
             currentQuestionNumber = 0;
@@ -239,19 +243,19 @@ public class GameProcess : MonoBehaviour
                 LightAnimation.BigCircleDown();
                 if (currentQuestionNumber == 1)
                 {
-                    audioSource.PlayOneShot(classicModeAudio[12]);
+                    musicAudioSource.PlayOneShot(classicModeAudio[12]);
                 }
             }
             else if (state == State.WRONG_ANSWER)
             {
-                audioSource.PlayOneShot(classicModeAudio[13]);
+                musicAudioSource.PlayOneShot(classicModeAudio[13]);
             }
             else if (state == State.CORRECT_ANSWER)
             {
                 LightAnimation.SmallCircleUp();
                 LightAnimation.BigCircleUp();
 
-                audioSource.PlayOneShot(classicModeAudio[14]);
+                soundsAudioSource.PlayOneShot(classicModeAudio[14]);
             }
         }
         //if it's 5-15 question
@@ -262,11 +266,11 @@ public class GameProcess : MonoBehaviour
                 //if it's question 5-15 question sound index (5*i-13)
                 if (currentQuestionNumber != 5)
                 {
-                    audioSource.Stop();
+                    musicAudioSource.Stop();
 
                     LightAnimation.SmallCircleUp();
                     LightAnimation.BigCircleUp();
-                    audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 13]);
+                    musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 13]);
                     Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 13].name);
                 }
             }
@@ -274,40 +278,38 @@ public class GameProcess : MonoBehaviour
             {
                 if (currentQuestionNumber != 5)
                 {
-                    audioSource.Stop();
-                    audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 12]);
+                    musicAudioSource.Stop();
+                    musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 12]);
                     Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 12].name);
                 }
             }
             else if (state == State.WRONG_ANSWER)
 
             {
-                audioSource.Stop();
-                audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 11]);
+                musicAudioSource.Stop();
+                musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 11]);
                 Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 11].name);
             }
             else if (state == State.CORRECT_ANSWER)
             {
-                audioSource.Stop();
+                soundsAudioSource.Stop();
                 StartCoroutine(PlayCorrectThenLDSound());
             }
         }
-
-
     }
 
 
     public IEnumerator PlayCorrectThenLDSound()
     {
         //if it's question 6-15, correct answer sound's index is calculating automatically (5*i-10) | LD index is calculating automatically (5*i-9)
-        audioSource.Stop();
-        audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 10]);
+        musicAudioSource.Stop();
+        musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 10]);
         Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 10].name);
         yield return new WaitForSeconds(5f);
 
-        audioSource.Stop();
+        musicAudioSource.Stop();
         LightAnimation.SmallCircleDown();
-        audioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 9]);
+        musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 9]);
         Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 9].name);
         yield return new WaitForSeconds(4f);
 
@@ -321,5 +323,15 @@ public class GameProcess : MonoBehaviour
         }
     }
 
+    public void PlayMainTheme()
+    {
+        musicAudioSource.Stop();
+        musicAudioSource.PlayOneShot(classicModeAudio[0]);
+    }
+
+    public void PlayLifeline5050Sound()
+    {
+        soundsAudioSource.PlayOneShot(classicModeAudio[70]);
+    }
 
 }

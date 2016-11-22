@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager uim; // static variable which is used to get reference to UIManager instance from every script
+    public static UIManager instance; // static variable which is used to get reference to UIManager instance from every script
 
     public List<Sprite> lozengeSprites; // list of all sprites used at logenze panel | left(inact, act, final, correct) then right (inact, act, final, correct)
     public List<Sprite> moneyTreeSprites; // list of all sprites used at money tree panel | 5050act, 5050av, 5050unav, aud_act, aud_av, aud_unav, ph_act, ph_av, ph_unav
@@ -38,12 +38,12 @@ public class UIManager : MonoBehaviour
         this.language = new Language("uk-UA");
         Debug.Log(this.language.T("game_title"));
         */
-        if (uim == null)
+        if (instance == null)
         {
-            uim = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (uim != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
@@ -98,7 +98,7 @@ public class UIManager : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.M) && GameProcess.gp.state != State.GAME_IS_NOT_STARTED)
+        if (Input.GetKeyDown(KeyCode.M) && GameProcess.instance.state != State.GAME_IS_NOT_STARTED)
         {
             //opening/closing  Money Tree Panel
             if (moneyTreePanel.activeSelf)
@@ -166,15 +166,15 @@ public class UIManager : MonoBehaviour
     public void Choose(int characterId)
     {
         //making interactable ChooseButton of old character
-        Button button = GameObject.Find("CharacterPropertiesPanelId=" + GameManager.gm.chosedCharacterId).GetComponentInChildren<Button>();
+        Button button = GameObject.Find("CharacterPropertiesPanelId=" + GameManager.instance.chosedCharacterId).GetComponentInChildren<Button>();
         button.interactable = true;
         button.GetComponentInChildren<Text>().text = "Choose";
 
-        GameManager.gm.chosedCharacterId = characterId;
-        GameManager.gm.updatePlayerObject = true;
+        GameManager.instance.chosedCharacterId = characterId;
+        GameManager.instance.updatePlayerObject = true;
 
         //making not interactable ChooseButton of current character
-        button = GameObject.Find("CharacterPropertiesPanelId=" + GameManager.gm.chosedCharacterId).GetComponentInChildren<Button>();
+        button = GameObject.Find("CharacterPropertiesPanelId=" + GameManager.instance.chosedCharacterId).GetComponentInChildren<Button>();
         button.interactable = false;
         button.GetComponentInChildren<Text>().text = "Chosed";
     }
@@ -208,10 +208,10 @@ public class UIManager : MonoBehaviour
         {
             currentlyHighlightedAnswer = 0;
             SetFinalAnswer(numberOfAnswer);
-            GameProcess.gp.AnswerSelected(numberOfAnswer);
+            GameProcess.instance.AnswerSelected(numberOfAnswer);
         }
         //if highlighted other answer
-        else if (GameProcess.gp.state != State.FINAL_ANSWER_GIVEN)
+        else if (GameProcess.instance.state != State.FINAL_ANSWER_GIVEN)
         {
             UnhighLightAnswer(currentlyHighlightedAnswer);
             HighLightAnswer(numberOfAnswer);
@@ -493,7 +493,7 @@ public class UIManager : MonoBehaviour
     {
         currentPrizePanel.transform.GetChild(2).GetComponent<Text>().text = "" + profit;
 
-        if (GameProcess.gp.state == State.MILLION_WON)
+        if (GameProcess.instance.state == State.MILLION_WON)
         {
             currentPrizePanel.transform.GetChild(3).gameObject.SetActive(true);
             currentPrizePanel.transform.GetChild(0).gameObject.SetActive(true);
@@ -511,19 +511,19 @@ public class UIManager : MonoBehaviour
 
         if (isGameOver)
         {
-            PlayerControll.pc.StandUp();
+            PlayerControll.instance.StandUp();
         }
         else
         {
-            if (GameProcess.gp.state != State.MILLION_WON)
+            if (GameProcess.instance.state != State.MILLION_WON)
             {
                 StartCoroutine(ShowMoneyTreePanel());
             }
             else
             {
-                GameProcess.gp.state = State.GAME_IS_NOT_STARTED;
-                GameProcess.gp.currentQuestionNumber = 0;
-                PlayerControll.pc.StandUp();
+                GameProcess.instance.state = State.GAME_IS_NOT_STARTED;
+                GameProcess.instance.currentQuestionNumber = 0;
+                PlayerControll.instance.StandUp();
             }
         }
 
@@ -676,10 +676,10 @@ public class UIManager : MonoBehaviour
     public IEnumerator ShowMoneyTreePanel()
     {
         //refreshing money tree panel
-        HighlightQuestiontPrize(GameProcess.gp.currentQuestionNumber);
+        HighlightQuestiontPrize(GameProcess.instance.currentQuestionNumber);
 
         moneyTreePanel.SetActive(true);
-        if (GameProcess.gp.state == State.CORRECT_ANSWER)
+        if (GameProcess.instance.state == State.CORRECT_ANSWER)
         {
             yield return new WaitForSeconds(3f);
             StartCoroutine(CloseMoneyTreePanel());
@@ -747,15 +747,15 @@ public class UIManager : MonoBehaviour
 
         moneyTreePanel.SetActive(false);
 
-        if (GameProcess.gp.state == State.CORRECT_ANSWER && GameProcess.gp.currentQuestionNumber < 5)
+        if (GameProcess.instance.state == State.CORRECT_ANSWER && GameProcess.instance.currentQuestionNumber < 5)
         {
             if (GameProcess.isPaused)
             {
-                GameProcess.gp.continuePoint = GameProcess.gp.LoadQuestion;
+                GameProcess.instance.continuePoint = GameProcess.instance.LoadQuestion;
             }
             else
             {
-                GameProcess.gp.LoadQuestion();
+                GameProcess.instance.LoadQuestion();
             }
         }
 
@@ -773,6 +773,8 @@ public class UIManager : MonoBehaviour
         //hiding wrong answer 2
         lozengePanel.transform.GetChild(wrongAnswers[1] + 2).GetChild(0).GetComponent<Text>().color = new Color32(255, 255, 255, 0);
         lozengePanel.transform.GetChild(wrongAnswers[1] + 2).GetChild(1).GetComponent<Text>().color = new Color32(255, 255, 255, 0);
+
+        GameProcess.instance.PlayLifeline5050Sound();
 
         //making lifeline5050 button not interactable
         //moneyTreePanel.transform.GetChild(0).GetComponent<Image>().sprite = moneyTreeSprites[2];
@@ -874,7 +876,7 @@ public class UIManager : MonoBehaviour
         if (canCloseAudiencePanel)
         {
             audiencePanel.GetComponent<Animator>().SetBool("ClosePanel", true);
-            
+
         }
     }
 

@@ -12,20 +12,20 @@ public class LifelineAudience : MonoBehaviour {
     public int[] Use()
     {
         int[] results = new int[4];
-        int idOfRightAnswer = GameProcess.gp.question.CorrectAnswer; // (1 to 4)
+        int idOfRightAnswer = GameProcess.instance.question.CorrectAnswer; // (1 to 4)
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         //if lifeline 5050 was used for this question
         //we have 2 avaliable answers
         ///////////////////////////////////////////////////////////////////////////////////////////////////
-        if(GameProcess.gp.isLifeline5050JustUsed)
+        if(GameProcess.instance.isLifeline5050JustUsed)
         {
             int idOfWrongAnswer = 1; // (1 to 4)                
 
             //finding id of wrong answer
             for (int i = 0; i < 4; i++)
             {
-                if (GameProcess.gp.isAnswerAvailable[i] == true && idOfRightAnswer != i + 1)
+                if (GameProcess.instance.isAnswerAvailable[i] == true && idOfRightAnswer != i + 1)
                 {
                     idOfWrongAnswer = i + 1;
                 }

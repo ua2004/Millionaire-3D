@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
 
-    public static GameManager gm; // static variable which is used to get reference to GameManager instance from every script
+    public static GameManager instance; // static variable which is used to get reference to GameManager instance from every script
 
     public static bool itIsUkrainianVersion = true; //currently set as true
     public static bool itIsEnglishVersion = false;  //currently set as false
@@ -21,12 +21,12 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (gm == null)
+        if (instance == null)
         {
-            gm = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (gm != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
@@ -44,16 +44,16 @@ public class GameManager : MonoBehaviour
     void UpdatePlayerObject()
     {
         //destroying old character's prefab
-        Destroy(PlayerControll.pc.gameObject.transform.GetChild(1).gameObject);
+        Destroy(PlayerControll.instance.gameObject.transform.GetChild(1).gameObject);
 
         GameObject newObject = (GameObject)Instantiate(characters[chosedCharacterId].prefab);
 
-        newObject.transform.SetParent(PlayerControll.pc.transform);
+        newObject.transform.SetParent(PlayerControll.instance.transform);
 
         newObject.transform.localPosition = new Vector3(0, 0, 0);
         newObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
 
-        PlayerControll.pc.gameObject.GetComponent<Animator>().avatar = characters[chosedCharacterId].avatar;
+        PlayerControll.instance.gameObject.GetComponent<Animator>().avatar = characters[chosedCharacterId].avatar;
 
         updatePlayerObject = false;
     }

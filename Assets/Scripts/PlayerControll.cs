@@ -8,7 +8,7 @@ using DG.Tweening;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerControll : MonoBehaviour
 {
-    public static PlayerControll pc;
+    public static PlayerControll instance;
     //[System.NonSerialized]					
     //public float lookWeight;					// the amount to transition when using head look
 
@@ -40,11 +40,11 @@ public class PlayerControll : MonoBehaviour
 
     void Awake()
     {
-        if (pc == null)
+        if (instance == null)
         {
-            pc = this;
+            instance = this;
         }
-        else if (pc != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
@@ -226,7 +226,7 @@ public class PlayerControll : MonoBehaviour
             GameObject.Find("SitDownText").GetComponent<Text>().color = new Color32(255, 255, 255, 0);
 
             //starting the game
-            GameProcess.gp.StartGame();
+            GameProcess.instance.StartGame();
         }
     }
 
@@ -255,7 +255,7 @@ public class PlayerControll : MonoBehaviour
         CamerasBehaviour.cb.DisableGameCameras();
 
         //playing background music
-        UIManager.uim.gameObject.GetComponent<AudioSource>().mute = false;
+        GameProcess.instance.PlayMainTheme();
     }
 
     void Kick()

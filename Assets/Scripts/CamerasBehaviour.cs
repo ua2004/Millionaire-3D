@@ -32,7 +32,7 @@ public class CamerasBehaviour : MonoBehaviour
         }
 
         // initialising references		
-        standardPos = PlayerControll.pc.cameraPos.transform;
+        standardPos = PlayerControll.instance.cameraPos.transform;
 
         playerCamera = transform.GetChild(0).GetComponent<Camera>();
         mainCamrera = transform.GetChild(1).GetComponent<Camera>();

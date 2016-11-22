@@ -61,7 +61,7 @@ public class Question
 
         
 
-        UIManager.uim.ShowQuestion(question, answers);
+        UIManager.instance.ShowQuestion(question, answers);
     }
 
     /// <summary>

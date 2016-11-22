@@ -391,7 +391,7 @@ public class UIManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator WrondAnswer(int numberOfCorrectAnswer, int totalWining)
     {
-        int countdown = 3;
+        int countdown = 7;
 
         while (countdown > 0)
         {
@@ -408,7 +408,7 @@ public class UIManager : MonoBehaviour
                 lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetChild(1).GetComponent<Text>().color = new Color32(0, 0, 0, 255);
             }
             countdown--;
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.2f);
 
             if (numberOfCorrectAnswer == 1 || numberOfCorrectAnswer == 3)
             {
@@ -421,7 +421,7 @@ public class UIManager : MonoBehaviour
                 lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetChild(1).GetComponent<Text>().color = new Color32(255, 255, 255, 255);
             }
             countdown--;
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.2f);
         }
 
         if (numberOfCorrectAnswer == 1 || numberOfCorrectAnswer == 3)
@@ -434,6 +434,8 @@ public class UIManager : MonoBehaviour
             lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetComponent<Image>().sprite = lozengeSprites[7];
             lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetChild(1).GetComponent<Text>().color = new Color32(0, 0, 0, 255);
         }
+
+        yield return new WaitForSeconds(0.6f);
 
         CloseLozengePanel();
         StartCoroutine(ShowCurrentPrizePanel(totalWining, true));
@@ -537,11 +539,11 @@ public class UIManager : MonoBehaviour
             //hiding all diamonds
             moneyTreePanel.transform.GetChild(i).GetChild(2).gameObject.SetActive(false);
 
-            if(GameManager.itIsUkrainianVersion)
+            if (GameManager.itIsUkrainianVersion)
             {
                 moneyTreePanel.transform.GetChild(i).GetChild(1).GetComponent<Text>().text = GameFormat.moneyTreeUa[i - 3];
             }
-            else if(GameManager.itIsEnglishVersion)
+            else if (GameManager.itIsEnglishVersion)
             {
                 moneyTreePanel.transform.GetChild(i).GetChild(1).GetComponent<Text>().text = GameFormat.moneyTreeUK[i - 3];
             }
@@ -870,7 +872,10 @@ public class UIManager : MonoBehaviour
     public void AudiencePanelClose()
     {
         if (canCloseAudiencePanel)
+        {
             audiencePanel.GetComponent<Animator>().SetBool("ClosePanel", true);
+            
+        }
     }
 
     public void PauseGameUI()

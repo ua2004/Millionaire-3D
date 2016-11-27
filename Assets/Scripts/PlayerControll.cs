@@ -158,13 +158,11 @@ public class PlayerControll : MonoBehaviour
             if (isWalking && chairToSit != null && !ignoreSitInput)
             {
                 ignoreSitInput = true;
-                Debug.Log("SitDown");
                 SitDown();
             }
             //if player is siting
             else if (!isWalking && !ignoreSitInput)
             {
-                Debug.Log("atand up");
                 ignoreSitInput = true;
                 StandUp();
             }
@@ -255,7 +253,7 @@ public class PlayerControll : MonoBehaviour
         CamerasBehaviour.cb.DisableGameCameras();
 
         //playing background music
-        GameProcess.instance.PlayMainTheme();
+        //GameProcess.instance.PlayMainTheme();
     }
 
     void Kick()

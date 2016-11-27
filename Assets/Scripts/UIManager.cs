@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     public Text phoneDialogText;
 
     [Header("Other references")]
+    public GameObject confetti;
     public Language language; //current game language chosen by user
 
     public Animator moneyTreeAnimator; // a reference for money tree animator
@@ -503,6 +504,7 @@ public class UIManager : MonoBehaviour
         {
             currentPrizePanel.transform.GetChild(3).gameObject.SetActive(true);
             currentPrizePanel.transform.GetChild(0).gameObject.SetActive(true);
+            confetti.SetActive(true);
         }
 
         currentPrizePanel.SetActive(true);
@@ -832,38 +834,24 @@ public class UIManager : MonoBehaviour
                 ansAText.text = percents + "%";
                 ansA.fillAmount = (float)percents / 100f;
             }
-            //else if(ansAText.text == "0%")
-            //{
-            //}
 
             if (percents <= result[1])
             {
                 ansBText.text = percents + "%";
                 ansB.fillAmount = (float)percents / 100f;
             }
-            //else if (ansBText.text == "0%")
-            //{
-            //}
 
             if (percents <= result[2])
             {
                 ansCText.text = percents + "%";
                 ansC.fillAmount = (float)percents / 100f;
             }
-            //else if (ansAText.text == "0%")
-            //{
-
-            //}
 
             if (percents <= result[3])
             {
                 ansDText.text = percents + "%";
                 ansD.fillAmount = (float)percents / 100f;
             }
-            //else if (ansAText.text == "0%")
-            //{
-
-            //}
 
             percents++;
 

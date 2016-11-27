@@ -99,6 +99,8 @@ public class GameProcess : MonoBehaviour
         //    UIManager.uim.LoadGameUI();
         //    ContinueGameProcess();
         //}
+
+        UIManager.instance.confetti.SetActive(false);
     }
 
     public void PauseGameProcess()
@@ -129,7 +131,7 @@ public class GameProcess : MonoBehaviour
     {
         if (state != State.WAITING_ANSWER)
         {
-            Debug.Log("load question");
+            //Debug.Log("load question");
             currentQuestionNumber++;
 
             state = State.WAITING_ANSWER;
@@ -173,7 +175,8 @@ public class GameProcess : MonoBehaviour
             if (currentQuestionNumber == gameFormat.QuestionCount)
             {
                 state = State.MILLION_WON;
-                Debug.Log("Bravo! You are a millionaire!");
+                //Debug.Log("Bravo! You are a millionaire!");
+                PlaySound();
                 UIManager.instance.StartCoroutine(UIManager.instance.CorrectAnswer(question.finalAnswer, 1000000));
                 
             }
@@ -182,7 +185,7 @@ public class GameProcess : MonoBehaviour
             {
                 state = State.CORRECT_ANSWER;
                 PlaySound();
-                Debug.Log("Correct! You won " + gameFormat.GetPrizeForQuestion(currentQuestionNumber));
+                //Debug.Log("Correct! You won " + gameFormat.GetPrizeForQuestion(currentQuestionNumber));
                 UIManager.instance.StartCoroutine(UIManager.instance.CorrectAnswer(question.finalAnswer, gameFormat.GetPrizeForQuestion(currentQuestionNumber)));
                 yield return new WaitForSeconds(1);
             }
@@ -192,7 +195,7 @@ public class GameProcess : MonoBehaviour
             state = State.WRONG_ANSWER;
             PlaySound();
             UIManager.instance.StartCoroutine(UIManager.instance.WrondAnswer(question.CorrectAnswer, gameFormat.GetGuaranteedPrizeForQuestion(currentQuestionNumber)));
-            Debug.Log("Wrong! Your total prize is " + gameFormat.GetGuaranteedPrizeForQuestion(currentQuestionNumber));
+            //Debug.Log("Wrong! Your total prize is " + gameFormat.GetGuaranteedPrizeForQuestion(currentQuestionNumber));
             state = State.GAME_IS_NOT_STARTED;
             currentQuestionNumber = 0;
         }
@@ -201,8 +204,6 @@ public class GameProcess : MonoBehaviour
 
     public IEnumerator LetsPlayLD()
     {
-
-
         float timer = 9f; // wait 9 secconds until LD
         while (timer > 0)
         {
@@ -220,7 +221,6 @@ public class GameProcess : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-
         //lights down
 
         yield return new WaitForSeconds(4);
@@ -235,7 +235,6 @@ public class GameProcess : MonoBehaviour
 
     public void PlaySound()
     {
-
         //if its first 5 questions
         if (currentQuestionNumber < 5)
         {
@@ -250,6 +249,7 @@ public class GameProcess : MonoBehaviour
             }
             else if (state == State.WRONG_ANSWER)
             {
+                musicAudioSource.Stop();
                 musicAudioSource.PlayOneShot(classicModeAudio[13]);
             }
             else if (state == State.CORRECT_ANSWER)
@@ -273,7 +273,7 @@ public class GameProcess : MonoBehaviour
                     LightAnimation.SmallCircleUp();
                     LightAnimation.BigCircleUp();
                     musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 13]);
-                    Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 13].name);
+                    //Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 13].name);
                 }
             }
             else if (state == State.FINAL_ANSWER_GIVEN)
@@ -282,7 +282,7 @@ public class GameProcess : MonoBehaviour
                 {
                     musicAudioSource.Stop();
                     musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 12]);
-                    Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 12].name);
+                    //Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 12].name);
                 }
             }
             else if (state == State.WRONG_ANSWER)
@@ -290,13 +290,18 @@ public class GameProcess : MonoBehaviour
             {
                 musicAudioSource.Stop();
                 musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 11]);
-                Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 11].name);
+                //Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 11].name);
             }
             else if (state == State.CORRECT_ANSWER)
             {
                 soundsAudioSource.Stop();
                 StartCoroutine(PlayCorrectThenLDSound());
             }
+            else if (state == State.MILLION_WON)
+            {
+                musicAudioSource.PlayOneShot(classicModeAudio[65]);
+            }
+
         }
     }
 
@@ -306,13 +311,13 @@ public class GameProcess : MonoBehaviour
         //if it's question 6-15, correct answer sound's index is calculating automatically (5*i-10) | LD index is calculating automatically (5*i-9)
         musicAudioSource.Stop();
         musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 10]);
-        Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 10].name);
+        //Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 10].name);
         yield return new WaitForSeconds(5f);
 
         musicAudioSource.Stop();
         LightAnimation.SmallCircleDown();
         musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 9]);
-        Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 9].name);
+        //Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 9].name);
         yield return new WaitForSeconds(4f);
 
         if (GameProcess.isPaused)

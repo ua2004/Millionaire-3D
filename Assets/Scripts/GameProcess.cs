@@ -356,4 +356,15 @@ public class GameProcess : MonoBehaviour
 
         DOVirtual.DelayedCall(classicModeAudio[71].length, UnPauseMusic);
     }
+
+    public void PlaySoundByNumber(int numberOfSound)
+    {
+        soundsAudioSource.Stop();
+        soundsAudioSource.PlayOneShot(classicModeAudio[numberOfSound]);
+    }
+
+    public void StopSound()
+    {
+        soundsAudioSource.Stop();
+    }
 }

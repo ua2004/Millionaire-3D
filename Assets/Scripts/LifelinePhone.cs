@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
+using DG.Tweening;
 
 public class LifelinePhone : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class LifelinePhone : MonoBehaviour
 
     public void Use()
     {
-        timerAnimator = UIManager.instance.timerPanel.transform.GetChild(0).GetComponent<Animator>();
+        timerAnimator = UIManager.instance.phonePanel.transform.GetChild(0).GetComponent<Animator>();
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         //if lifeline 5050 was used for this question
         //we have 2 avaliable answers
@@ -78,10 +78,18 @@ public class LifelinePhone : MonoBehaviour
 
         switch (answer)
         {
-            case 1: UIManager.instance.StartCoroutine(LifelinePhoneAnimation("A")); break;
-            case 2: UIManager.instance.StartCoroutine(LifelinePhoneAnimation("B")); break;
-            case 3: UIManager.instance.StartCoroutine(LifelinePhoneAnimation("C")); break;
-            case 4: UIManager.instance.StartCoroutine(LifelinePhoneAnimation("D")); break;
+            case 1:
+                UIManager.instance.StartCoroutine(LifelinePhoneAnimation("A"));
+                break;
+            case 2:
+                UIManager.instance.StartCoroutine(LifelinePhoneAnimation("B"));
+                break;
+            case 3:
+                UIManager.instance.StartCoroutine(LifelinePhoneAnimation("C"));
+                break;
+            case 4:
+                UIManager.instance.StartCoroutine(LifelinePhoneAnimation("D"));
+                break;
         }
 
 
@@ -98,39 +106,58 @@ public class LifelinePhone : MonoBehaviour
 
     public IEnumerator LifelinePhoneAnimation(string answer)
     {
-        Debug.Log("Calling...");
+        GameProcess.instance.PauseMusic();
+        GameProcess.instance.PlaySoundByNumber(68);
+        UIManager.instance.StartCoroutine(UIManager.instance.CloseMoneyTreePanel());
+        UIManager.instance.phonePanel.SetActive(true);
+
+        //Debug.Log("Calling...");
+        UIManager.instance.phoneDialogText.text = "\t  Calling...\n";
+
+        yield return new WaitForSeconds(3f);
+
+        //Debug.Log("- Yes");
+        UIManager.instance.phoneDialogText.text = "\t  Calling...\n\t- Yes";
 
         yield return new WaitForSeconds(1.5f);
 
-        Debug.Log("- Yes");
-        yield return new WaitForSeconds(0.5f);
+        //Debug.Log("- Hello, it's Who wants to be a milionire! How do you thing, which answer is right?f");
+        UIManager.instance.phoneDialogText.text = "\t- Yes\n\t- Hello, it's Who wants to be a milionire!";
+        yield return new WaitForSeconds(2f);
+        UIManager.instance.phoneDialogText.text = "\t- Hello, it's Who wants to be a milionire!\n\t  How do you thing, which answer is right?";
 
-        Debug.Log("- Hello, it's Who wants to be a milionire!. How do you thing, which answer is right?f");
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1.5f);
 
         int timeOfAnswer = Random.Range(0, 25); // time on tiner when friend will give an answer
         int timer = 30;
 
-        UIManager.instance.StartCoroutine(UIManager.instance.CloseMoneyTreePanel());
-        UIManager.instance.timerPanel.SetActive(true);
+        UIManager.instance.phonePanel.transform.GetChild(0).gameObject.SetActive(true);
 
-      
-        
-        Debug.Log("- Hmmmm...");
+
+
+        //Debug.Log("- Hmmmm...");
+        UIManager.instance.phoneDialogText.text = "\t  How do you thing, which answer is right?\n\t- Hmmmm...";
         timerAnimator.SetBool("StartCountdown", true);
+
 
         //litle dellay
         yield return new WaitForSeconds(0.255f);
+        GameProcess.instance.PlaySoundByNumber(69);
 
         while (timer >= 0)
         {
-            UIManager.instance.timerPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "" + timer;
-            
+            UIManager.instance.phonePanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "" + timer;
+
 
             if (timeOfAnswer == timer)
             {
-                Debug.Log("- I think it's " + answer);
-                UIManager.instance.timerPanel.transform.GetChild(0).GetComponent<Animator>().SetBool("HideTimer", true);
+                //Debug.Log("- I think it's " + answer);
+                UIManager.instance.phoneDialogText.text = "\t- Hmmmm...\n\t- I think it's " + answer;
+                UIManager.instance.phonePanel.transform.GetChild(0).GetComponent<Animator>().SetBool("HideTimer", true);
+
+                UIManager.instance.phonePanel.transform.GetChild(2).GetComponent<Button>().interactable = true;
+                GameProcess.instance.StopSound();
+                GameProcess.instance.UnPauseMusic();
             }
 
             timer--;

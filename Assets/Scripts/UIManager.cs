@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public List<Sprite> lozengeSprites; // list of all sprites used at logenze panel | left(inact, act, final, correct) then right (inact, act, final, correct)
     public List<Sprite> moneyTreeSprites; // list of all sprites used at money tree panel | 5050act, 5050av, 5050unav, aud_act, aud_av, aud_unav, ph_act, ph_av, ph_unav
 
+    [Header("Panel references")]
     public GameObject startPanel;                   //
     public GameObject chooseModePanel;              //
     public GameObject gamePanel;                    //
@@ -21,9 +22,13 @@ public class UIManager : MonoBehaviour
     public GameObject lozengePanel;                 //
     public GameObject currentPrizePanel;            //
     public GameObject moneyTreePanel;               //
-    public GameObject timerPanel;                   //
+    public GameObject phonePanel;                   //
     public GameObject audiencePanel;                //
 
+    [Header("Text references")]
+    public Text phoneDialogText;
+
+    [Header("Other references")]
     public Language language; //current game language chosen by user
 
     public Animator moneyTreeAnimator; // a reference for money tree animator
@@ -886,6 +891,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void LifelinePhoneClose()
+    {
+        phonePanel.SetActive(false);
+    }
+
+
     public void PauseGameUI()
     {
         Debug.Log("PauseGameUI");
@@ -910,7 +921,7 @@ public class UIManager : MonoBehaviour
         panelsStates[6] = lozengePanel.activeSelf;
         panelsStates[7] = currentPrizePanel.activeSelf;
         panelsStates[8] = moneyTreePanel.activeSelf;
-        panelsStates[9] = timerPanel.activeSelf;
+        panelsStates[9] = phonePanel.activeSelf;
         panelsStates[10] = audiencePanel.activeSelf;
 
         CloseAllPanels();
@@ -928,7 +939,7 @@ public class UIManager : MonoBehaviour
         lozengePanel.SetActive(panelsStates[6]);
         currentPrizePanel.SetActive(panelsStates[7]);
         moneyTreePanel.SetActive(panelsStates[8]);
-        timerPanel.SetActive(panelsStates[9]);
+        phonePanel.SetActive(panelsStates[9]);
         audiencePanel.SetActive(panelsStates[10]);
     }
 
@@ -943,7 +954,7 @@ public class UIManager : MonoBehaviour
         lozengePanel.SetActive(false);
         currentPrizePanel.SetActive(false);
         moneyTreePanel.SetActive(false);
-        timerPanel.SetActive(false);
+        phonePanel.SetActive(false);
         audiencePanel.SetActive(false);
     }
 }

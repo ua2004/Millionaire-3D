@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -878,6 +879,10 @@ public class UIManager : MonoBehaviour
         {
             audiencePanel.GetComponent<Animator>().SetBool("ClosePanel", true);
 
+            DOVirtual.DelayedCall(1.5f, delegate
+            {
+                audiencePanel.SetActive(false);
+            });
         }
     }
 

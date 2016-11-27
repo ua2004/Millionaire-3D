@@ -11,7 +11,7 @@ public class LifelinePhone : MonoBehaviour
 
     public void Use()
     {
-        timerAnimator = UIManager.instance.phonePanel.transform.GetChild(0).GetComponent<Animator>();
+        timerAnimator = UIManager.instance.phonePanel.transform.GetChild(1).GetComponent<Animator>();
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         //if lifeline 5050 was used for this question
         //we have 2 avaliable answers
@@ -131,7 +131,7 @@ public class LifelinePhone : MonoBehaviour
         int timeOfAnswer = Random.Range(0, 25); // time on tiner when friend will give an answer
         int timer = 30;
 
-        UIManager.instance.phonePanel.transform.GetChild(0).gameObject.SetActive(true);
+        UIManager.instance.phonePanel.transform.GetChild(1).gameObject.SetActive(true);
 
 
 
@@ -146,16 +146,17 @@ public class LifelinePhone : MonoBehaviour
 
         while (timer >= 0)
         {
-            UIManager.instance.phonePanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "" + timer;
+            UIManager.instance.phonePanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = "" + timer;
 
 
             if (timeOfAnswer == timer)
             {
                 //Debug.Log("- I think it's " + answer);
                 UIManager.instance.phoneDialogText.text = "\t- Hmmmm...\n\t- I think it's " + answer;
-                UIManager.instance.phonePanel.transform.GetChild(0).GetComponent<Animator>().SetBool("HideTimer", true);
+                UIManager.instance.phonePanel.transform.GetChild(1).GetComponent<Animator>().SetBool("HideTimer", true);
+                UIManager.instance.phonePanel.transform.GetChild(0).gameObject.SetActive(false);
 
-                UIManager.instance.phonePanel.transform.GetChild(2).GetComponent<Button>().interactable = true;
+                UIManager.instance.phonePanel.transform.GetChild(3).GetComponent<Button>().interactable = true;
                 GameProcess.instance.StopSound();
                 GameProcess.instance.UnPauseMusic();
             }

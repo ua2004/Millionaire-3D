@@ -778,8 +778,8 @@ public class UIManager : MonoBehaviour
         GameProcess.instance.PlayLifeline5050Sound();
 
         //making lifeline5050 button not interactable
-        //moneyTreePanel.transform.GetChild(0).GetComponent<Image>().sprite = moneyTreeSprites[2];
-        //moneyTreePanel.transform.GetChild(0).GetComponent<Button>().interactable = false;
+        moneyTreePanel.transform.GetChild(0).GetComponent<Image>().sprite = moneyTreeSprites[2];
+        moneyTreePanel.transform.GetChild(0).GetComponent<Button>().interactable = false;
     }
 
     public void LifelineAudiense()
@@ -796,8 +796,8 @@ public class UIManager : MonoBehaviour
         Debug.Log("A: " + result[0] + "  B: " + result[1] + "  C: " + result[2] + "  D: " + result[3]);
 
         //making lifelineAudience button not interactable
-        //moneyTreePanel.transform.GetChild(1).GetComponent<Image>().sprite = moneyTreeSprites[5];
-        //moneyTreePanel.transform.GetChild(1).GetComponent<Button>().interactable = false;
+        moneyTreePanel.transform.GetChild(1).GetComponent<Image>().sprite = moneyTreeSprites[5];
+        moneyTreePanel.transform.GetChild(1).GetComponent<Button>().interactable = false;
     }
 
     IEnumerator LifelineAudienceAnimaton(int[] result)

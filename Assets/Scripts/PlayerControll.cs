@@ -253,7 +253,7 @@ public class PlayerControll : MonoBehaviour
         CamerasBehaviour.cb.DisableGameCameras();
 
         //playing background music
-        //GameProcess.instance.PlayMainTheme();
+        GameProcess.instance.PlayMainTheme();
     }
 
     void Kick()

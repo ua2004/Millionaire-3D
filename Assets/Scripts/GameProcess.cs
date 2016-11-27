@@ -19,8 +19,8 @@ public enum State
     MILLION_WON,
 };
 
-    [RequireComponent(typeof (AudioSource))]
-    [RequireComponent(typeof (AudioSource))]
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource))]
 public class GameProcess : MonoBehaviour
 {
 
@@ -178,7 +178,7 @@ public class GameProcess : MonoBehaviour
                 //Debug.Log("Bravo! You are a millionaire!");
                 PlaySound();
                 UIManager.instance.StartCoroutine(UIManager.instance.CorrectAnswer(question.finalAnswer, 1000000));
-                
+
             }
             //if it's not last question
             else
@@ -300,6 +300,13 @@ public class GameProcess : MonoBehaviour
             else if (state == State.MILLION_WON)
             {
                 musicAudioSource.PlayOneShot(classicModeAudio[65]);
+                DOVirtual.DelayedCall(classicModeAudio[65].length + 4f, delegate
+                {
+                    if (!musicAudioSource.isPlaying && state == State.GAME_IS_NOT_STARTED)
+                    {
+                        PlayMainTheme();
+                    }
+                });
             }
 
         }
@@ -332,8 +339,11 @@ public class GameProcess : MonoBehaviour
 
     public void PlayMainTheme()
     {
-        musicAudioSource.Stop();
-        musicAudioSource.PlayOneShot(classicModeAudio[0]);
+        if (!musicAudioSource.isPlaying)
+        {
+            musicAudioSource.Stop();
+            musicAudioSource.PlayOneShot(classicModeAudio[0]);
+        }
     }
 
     public void PlayLifeline5050Sound()

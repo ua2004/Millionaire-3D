@@ -29,4 +29,14 @@ public static class LightAnimation
         GameManager.instance.bigCircleLight.SetTrigger("lightDown");
         GameManager.instance.doorLight.SetTrigger("lightDown");
     }
+
+    public static void TurnOnBigCircle()
+    {
+        GameManager.instance.bigCircleLight.gameObject.SetActive(true);
+    }
+
+    public static void TurnOffBigCircle()
+    {
+        GameManager.instance.bigCircleLight.gameObject.SetActive(false);
+    }
 }

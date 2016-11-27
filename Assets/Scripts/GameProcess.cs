@@ -241,8 +241,8 @@ public class GameProcess : MonoBehaviour
         {
             if (state == State.WAITING_ANSWER)
             {
-                LightAnimation.SmallCircleDown();
-                LightAnimation.BigCircleDown();
+                //LightAnimation.SmallCircleDown();
+                //LightAnimation.BigCircleDown();
                 if (currentQuestionNumber == 1)
                 {
                     musicAudioSource.PlayOneShot(classicModeAudio[12]);
@@ -254,8 +254,8 @@ public class GameProcess : MonoBehaviour
             }
             else if (state == State.CORRECT_ANSWER)
             {
-                LightAnimation.SmallCircleUp();
-                LightAnimation.BigCircleUp();
+                //LightAnimation.SmallCircleUp();
+                //LightAnimation.BigCircleUp();
 
                 soundsAudioSource.PlayOneShot(classicModeAudio[14]);
             }

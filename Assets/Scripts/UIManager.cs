@@ -354,7 +354,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     /// <param name="numberOfCorrectAnswer">number of correct answer (from 1 to 4)</param>
     /// <param name="profit">money that player get</param>
-    public IEnumerator CorrectAnswer(int numberOfCorrectAnswer, int profit)
+    public IEnumerator CorrectAnswer(int numberOfCorrectAnswer, string profit)
     {
         int i = 0;
         while (i < 3)
@@ -400,7 +400,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     /// <param name="numberOfCorrectAnswer">number of correct answer (from 1 to 4)</param>
     /// <returns></returns>
-    public IEnumerator WrondAnswer(int numberOfCorrectAnswer, int totalWining)
+    public IEnumerator WrondAnswer(int numberOfCorrectAnswer, string totalWining)
     {
         int countdown = 7;
 
@@ -500,9 +500,9 @@ public class UIManager : MonoBehaviour
     /// </summary>
     /// <param name="profit">money that player get</param>
     /// <returns></returns>
-    public IEnumerator ShowCurrentPrizePanel(int profit, bool isGameOver)
+    public IEnumerator ShowCurrentPrizePanel(string profit, bool isGameOver)
     {
-        currentPrizePanel.transform.GetChild(2).GetComponent<Text>().text = "" + profit;
+        currentPrizePanel.transform.GetChild(2).GetComponent<Text>().text = profit;
 
         if (GameProcess.instance.state == State.MILLION_WON || isGameOver)
         {

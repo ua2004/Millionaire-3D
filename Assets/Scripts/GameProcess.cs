@@ -177,7 +177,7 @@ public class GameProcess : MonoBehaviour
                 state = State.MILLION_WON;
                 //Debug.Log("Bravo! You are a millionaire!");
                 PlaySound();
-                UIManager.instance.StartCoroutine(UIManager.instance.CorrectAnswer(question.finalAnswer, 1000000));
+                UIManager.instance.StartCoroutine(UIManager.instance.CorrectAnswer(question.finalAnswer, "1 000 000"));
 
             }
             //if it's not last question
@@ -185,7 +185,7 @@ public class GameProcess : MonoBehaviour
             {
                 state = State.CORRECT_ANSWER;
                 PlaySound();
-                //Debug.Log("Correct! You won " + gameFormat.GetPrizeForQuestion(currentQuestionNumber));
+                
                 UIManager.instance.StartCoroutine(UIManager.instance.CorrectAnswer(question.finalAnswer, gameFormat.GetPrizeForQuestion(currentQuestionNumber)));
                 yield return new WaitForSeconds(1);
             }

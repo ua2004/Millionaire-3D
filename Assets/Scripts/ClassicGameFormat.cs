@@ -28,7 +28,7 @@ public class ClassicGameFormat : GameFormat {
 			1000000,
 		};
 
-		this.guaranteedPrizes = new int[]{
+		this.numberOfQuestionsWithGuarantedPrizes = new int[]{
 			5,
 			10,
 			15,

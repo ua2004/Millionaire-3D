@@ -271,7 +271,8 @@ public class GameProcess : MonoBehaviour
                     musicAudioSource.Stop();
 
                     LightAnimation.SmallCircleUp();
-                    LightAnimation.BigCircleUp();
+                    //LightAnimation.BigCircleUp();
+                    LightAnimation.TurnOffBigCircle();
                     musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 13]);
                     //Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 13].name);
                 }

@@ -28,6 +28,10 @@ public class UIManager : MonoBehaviour
     [Header("Text references")]
     public Text phoneDialogText;
 
+    [Header("Sprite references")]
+    public Sprite currentPrizeSprite;
+    public Sprite totalPrizeSprite;
+
     [Header("Other references")]
     public GameObject confetti;
     public Language language; //current game language chosen by user
@@ -500,11 +504,15 @@ public class UIManager : MonoBehaviour
     {
         currentPrizePanel.transform.GetChild(2).GetComponent<Text>().text = "" + profit;
 
-        if (GameProcess.instance.state == State.MILLION_WON)
+        if (GameProcess.instance.state == State.MILLION_WON || isGameOver)
         {
             currentPrizePanel.transform.GetChild(3).gameObject.SetActive(true);
             currentPrizePanel.transform.GetChild(0).gameObject.SetActive(true);
-            confetti.SetActive(true);
+            currentPrizePanel.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = totalPrizeSprite;
+            if (!isGameOver)
+            {
+                confetti.SetActive(true);
+            }
         }
 
         currentPrizePanel.SetActive(true);
@@ -514,12 +522,12 @@ public class UIManager : MonoBehaviour
         currentPrizePanel.SetActive(false);
         currentPrizePanel.transform.GetChild(3).gameObject.SetActive(false);
         currentPrizePanel.transform.GetChild(0).gameObject.SetActive(false);
-
-
+        currentPrizePanel.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = currentPrizeSprite;
 
         if (isGameOver)
         {
             PlayerControll.instance.StandUp();
+            LightAnimation.TurnOnBigCircle();
         }
         else
         {

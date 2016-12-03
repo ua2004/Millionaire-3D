@@ -11,6 +11,7 @@ public class LifelineAudience : MonoBehaviour {
     /// <returns>Returns array of 4 int values (at [0] is persents ofanswer A , [1] - B, etc)</returns>
     public int[] Use()
     {
+        LightAnimation.TurnOnBigCircle();
         int[] results = new int[4];
         int idOfRightAnswer = GameProcess.instance.question.CorrectAnswer; // (1 to 4)
 

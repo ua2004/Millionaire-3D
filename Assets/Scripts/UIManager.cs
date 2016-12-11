@@ -16,14 +16,15 @@ public class UIManager : MonoBehaviour
     public GameObject startPanel;                   //
     public GameObject chooseModePanel;              //
     public GameObject gamePanel;                    //
-    public GameObject settingsPanel;                // a references for canvas UI panels
+    public GameObject settingsPanel;                // 
     public GameObject chooseCharacterPanel;         //
-    public GameObject pausePanel;                   //
+    public GameObject pausePanel;                   // a references for canvas UI panels
     public GameObject lozengePanel;                 //
     public GameObject currentPrizePanel;            //
     public GameObject moneyTreePanel;               //
     public GameObject phonePanel;                   //
     public GameObject audiencePanel;                //
+    public GameObject millionWinPanel;              //
 
     [Header("Text references")]
     public Text phoneDialogText;
@@ -504,45 +505,50 @@ public class UIManager : MonoBehaviour
     {
         currentPrizePanel.transform.GetChild(2).GetComponent<Text>().text = profit;
 
-        if (GameProcess.instance.state == State.MILLION_WON || isGameOver)
+        // if we win million
+        if (GameProcess.instance.state == State.MILLION_WON)
         {
+
+            millionWinPanel.SetActive(true);
+            LightAnimation.TurnOnBigCircle();
+            confetti.SetActive(true);
+
+            yield return new WaitForSeconds(4f);
+
+            millionWinPanel.SetActive(false);
+
+            GameProcess.instance.state = State.GAME_IS_NOT_STARTED;
+            GameProcess.instance.currentQuestionNumber = 0;
+            PlayerControll.instance.StandUp();
+        }
+        // if game over
+        else if (isGameOver)
+        {
+            LightAnimation.TurnOnBigCircle();
             currentPrizePanel.transform.GetChild(3).gameObject.SetActive(true);
             currentPrizePanel.transform.GetChild(0).gameObject.SetActive(true);
             currentPrizePanel.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = totalPrizeSprite;
-            if (!isGameOver)
-            {
-                confetti.SetActive(true);
-            }
-        }
+            currentPrizePanel.SetActive(true);
 
-        currentPrizePanel.SetActive(true);
+            yield return new WaitForSeconds(4f);
 
-        yield return new WaitForSeconds(4f);
+            currentPrizePanel.transform.GetChild(3).gameObject.SetActive(false);
+            currentPrizePanel.transform.GetChild(0).gameObject.SetActive(false);
+            currentPrizePanel.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = currentPrizeSprite;
+            currentPrizePanel.SetActive(false);
 
-        currentPrizePanel.SetActive(false);
-        currentPrizePanel.transform.GetChild(3).gameObject.SetActive(false);
-        currentPrizePanel.transform.GetChild(0).gameObject.SetActive(false);
-        currentPrizePanel.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = currentPrizeSprite;
-
-        if (isGameOver)
-        {
             PlayerControll.instance.StandUp();
-            LightAnimation.TurnOnBigCircle();
         }
+        // if it's just correct answer
         else
         {
-            if (GameProcess.instance.state != State.MILLION_WON)
-            {
-                StartCoroutine(ShowMoneyTreePanel());
-            }
-            else
-            {
-                GameProcess.instance.state = State.GAME_IS_NOT_STARTED;
-                GameProcess.instance.currentQuestionNumber = 0;
-                PlayerControll.instance.StandUp();
-            }
-        }
+            currentPrizePanel.SetActive(true);
 
+            yield return new WaitForSeconds(4f);
+
+            currentPrizePanel.SetActive(false);
+            StartCoroutine(ShowMoneyTreePanel());
+        }
     }
 
     /// <summary>

@@ -320,14 +320,14 @@ public class GameProcess : MonoBehaviour
         //if it's question 6-15, correct answer sound's index is calculating automatically (5*i-10) | LD index is calculating automatically (5*i-9)
         musicAudioSource.Stop();
         musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 10]);
-        //Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 10].name);
-        yield return new WaitForSeconds(5f);
+        Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 10].name + "length " + classicModeAudio[5 * currentQuestionNumber - 10].length);
+        yield return new WaitForSeconds(classicModeAudio[5 * currentQuestionNumber - 10].length + 0.2f);
 
         musicAudioSource.Stop();
         LightAnimation.SmallCircleDown();
         musicAudioSource.PlayOneShot(classicModeAudio[5 * currentQuestionNumber - 9]);
-        //Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 9].name);
-        yield return new WaitForSeconds(4f);
+        Debug.Log("Sound: " + classicModeAudio[5 * currentQuestionNumber - 9].name + "length " + classicModeAudio[5 * currentQuestionNumber - 9].length);
+        yield return new WaitForSeconds(4f); //classicModeAudio[5 * currentQuestionNumber - 9].length);
 
         if (GameProcess.isPaused)
         {

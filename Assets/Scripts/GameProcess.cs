@@ -245,6 +245,7 @@ public class GameProcess : MonoBehaviour
                 if (currentQuestionNumber == 1)
                 {
                     musicAudioSource.PlayOneShot(classicModeAudio[12]);
+                    DOVirtual.DelayedCall(classicModeAudio[12].length + 0.2f, CheckIfMusicIsPlaying);
                 }
             }
             else if (state == State.WRONG_ANSWER)
@@ -382,5 +383,18 @@ public class GameProcess : MonoBehaviour
     public void StopSound()
     {
         soundsAudioSource.Stop();
+    }
+
+    public void CheckIfMusicIsPlaying()
+    {
+        if (currentQuestionNumber < 5)
+        {
+            if (state == State.WAITING_ANSWER)
+            {
+                musicAudioSource.PlayOneShot(classicModeAudio[12]);
+            }
+        }
+
+        DOVirtual.DelayedCall(classicModeAudio[12].length, CheckIfMusicIsPlaying);
     }
 }

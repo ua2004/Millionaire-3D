@@ -461,6 +461,8 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void CloseLozengePanel()
     {
+        lozengePanel.GetComponent<Animator>().enabled = true;
+
         // making logenze panel invisible
         lozengePanel.SetActive(false);
 
@@ -787,20 +789,26 @@ public class UIManager : MonoBehaviour
     {
         Lifeline50x50 lifeline5050 = new Lifeline50x50();
         int[] wrongAnswers = lifeline5050.Use();
+        lozengePanel.GetComponent<Animator>().enabled = false;
 
         //hiding wrong answer 1
         lozengePanel.transform.GetChild(wrongAnswers[0] + 2).GetChild(0).GetComponent<Text>().color = new Color32(255, 255, 255, 0);
         lozengePanel.transform.GetChild(wrongAnswers[0] + 2).GetChild(1).GetComponent<Text>().color = new Color32(255, 255, 255, 0);
+        lozengePanel.transform.GetChild(wrongAnswers[0] + 2).GetChild(2).gameObject.SetActive(false);
+        Debug.Log(lozengePanel.transform.GetChild(wrongAnswers[0] + 2).GetChild(2).gameObject.activeSelf);
+        Debug.Log(lozengePanel.transform.GetChild(wrongAnswers[0] + 2).GetChild(2).gameObject.transform.parent.name);
 
         //hiding wrong answer 2
         lozengePanel.transform.GetChild(wrongAnswers[1] + 2).GetChild(0).GetComponent<Text>().color = new Color32(255, 255, 255, 0);
         lozengePanel.transform.GetChild(wrongAnswers[1] + 2).GetChild(1).GetComponent<Text>().color = new Color32(255, 255, 255, 0);
+        lozengePanel.transform.GetChild(wrongAnswers[1] + 2).GetChild(2).gameObject.SetActive(false);
 
         GameProcess.instance.PlayLifeline5050Sound();
 
         //making lifeline5050 button not interactable
         moneyTreePanel.transform.GetChild(0).GetComponent<Image>().sprite = moneyTreeSprites[2];
         moneyTreePanel.transform.GetChild(0).GetComponent<Button>().interactable = false;
+
     }
 
     public void LifelineAudiense()

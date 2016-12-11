@@ -301,6 +301,7 @@ public class GameProcess : MonoBehaviour
             }
             else if (state == State.MILLION_WON)
             {
+                musicAudioSource.Stop();
                 musicAudioSource.PlayOneShot(classicModeAudio[65]);
                 DOVirtual.DelayedCall(classicModeAudio[65].length + 4f, delegate
                 {

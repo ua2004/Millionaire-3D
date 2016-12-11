@@ -151,13 +151,15 @@ public class LifelinePhone : MonoBehaviour
 
             if (timeOfAnswer == timer)
             {
-                //Debug.Log("- I think it's " + answer);
+                if (timeOfAnswer >= 1)
+                {
+                    GameProcess.instance.PlaySoundByNumber(83);
+                }
                 UIManager.instance.phoneDialogText.text = "\t- Hmmmm...\n\t- I think it's " + answer;
                 UIManager.instance.phonePanel.transform.GetChild(1).GetComponent<Animator>().SetBool("HideTimer", true);
                 UIManager.instance.phonePanel.transform.GetChild(0).gameObject.SetActive(false);
 
                 UIManager.instance.phonePanel.transform.GetChild(3).GetComponent<Button>().interactable = true;
-                GameProcess.instance.StopSound();
                 GameProcess.instance.UnPauseMusic();
             }
 

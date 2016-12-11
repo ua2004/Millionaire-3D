@@ -377,6 +377,7 @@ public class GameProcess : MonoBehaviour
 
     public void PlaySoundByNumber(int numberOfSound)
     {
+        Debug.Log("played sound: " + classicModeAudio[numberOfSound].name);
         soundsAudioSource.Stop();
         soundsAudioSource.PlayOneShot(classicModeAudio[numberOfSound]);
     }

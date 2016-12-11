@@ -293,6 +293,8 @@ public class UIManager : MonoBehaviour
     /// <param name="answerNumber">number of chosed answer(from 1 to 4)</param>
     public void SetFinalAnswer(int answerNumber)
     {
+        lozengePanel.GetComponent<Animator>().enabled = false; // animator doesn't allow to set buttons not interactable
+
         if (answerNumber == 1 || answerNumber == 3)
         {
             lozengePanel.transform.GetChild(answerNumber + 2).GetComponent<Image>().sprite = lozengeSprites[2];

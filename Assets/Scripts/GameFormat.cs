@@ -151,10 +151,10 @@ public abstract class GameFormat
         {
             return "0";
         }
-        else if (questionNumber == moneyTree.Length)
-        {
-            return GameManager.itIsEnglishVersion ? moneyTreePrizeUK[questionNumber - 1] : moneyTreePrizeUa[questionNumber - 1];
-        }
+        //else if (questionNumber == moneyTree.Length)
+        //{
+        //    return GameManager.itIsEnglishVersion ? moneyTreePrizeUK[questionNumber - 1] : moneyTreePrizeUa[questionNumber - 1];
+        //}
 
         int i = 0;
         while (numberOfQuestionsWithGuarantedPrizes[i] < questionNumber)

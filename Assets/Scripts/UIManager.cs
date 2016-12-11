@@ -402,7 +402,7 @@ public class UIManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator WrondAnswer(int numberOfCorrectAnswer, string totalWining)
     {
-        int countdown = 7;
+        int countdown = 9;
 
         while (countdown > 0)
         {
@@ -423,12 +423,12 @@ public class UIManager : MonoBehaviour
 
             if (numberOfCorrectAnswer == 1 || numberOfCorrectAnswer == 3)
             {
-                lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetComponent<Image>().sprite = lozengeSprites[2];
+                lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetComponent<Image>().sprite = lozengeSprites[0];
                 lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetChild(1).GetComponent<Text>().color = new Color32(255, 255, 255, 255);
             }
             else
             {
-                lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetComponent<Image>().sprite = lozengeSprites[6];
+                lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetComponent<Image>().sprite = lozengeSprites[4];
                 lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetChild(1).GetComponent<Text>().color = new Color32(255, 255, 255, 255);
             }
             countdown--;
@@ -446,7 +446,7 @@ public class UIManager : MonoBehaviour
             lozengePanel.transform.GetChild(numberOfCorrectAnswer + 2).GetChild(1).GetComponent<Text>().color = new Color32(0, 0, 0, 255);
         }
 
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(1.5f);
 
         CloseLozengePanel();
         StartCoroutine(ShowCurrentPrizePanel(totalWining, true));
